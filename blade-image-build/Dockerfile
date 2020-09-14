@@ -9,9 +9,7 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y \
   mkisofs \
-  wget \
-  p7zip-full \
-  p7zip-rar
+  wget 
 
 COPY ROOTFS/ /
 

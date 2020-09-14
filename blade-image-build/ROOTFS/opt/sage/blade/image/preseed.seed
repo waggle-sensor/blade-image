@@ -1,0 +1,106 @@
+# regional setting
+d-i debian-installer/language                               string      en_US:en
+d-i debian-installer/country                                string      US
+d-i debian-installer/locale                                 string      en_US
+d-i debian-installer/splash                                 boolean     false
+d-i localechooser/supported-locales                         multiselect en_US.UTF-8
+d-i pkgsel/install-language-support                         boolean     true
+
+# keyboard selection
+d-i console-setup/ask_detect                                boolean     false
+d-i keyboard-configuration/modelcode                        string      pc105
+d-i keyboard-configuration/layoutcode                       string      us
+d-i keyboard-configuration/variantcode                      string      intl
+d-i keyboard-configuration/xkb-keymap                       select      us(intl)
+d-i debconf/language                                        string      en_US:en
+
+# network settings
+d-i netcfg/choose_interface                                 select      auto
+d-i netcfg/dhcp_timeout                                     string      5
+d-i netcfg/get_hostname                                     string      changeme
+d-i netcfg/get_domain                                       string      changeme
+
+# mirror settings
+d-i mirror/country                                          string      manual
+d-i mirror/http/hostname                                    string      archive.ubuntu.com
+d-i mirror/http/directory                                   string      /ubuntu
+d-i mirror/http/proxy                                       string
+
+# clock and timezone settings
+d-i time/zone                                               string      UTC
+d-i clock-setup/utc                                         boolean     true
+d-i clock-setup/ntp                                         boolean     true
+
+# user account setup
+d-i passwd/root-login                                       boolean     true
+d-i passwd/make-user                                        boolean     false
+d-i passwd/root-password-crypted                            password    $1$NUn6912w$dE1AyNT7qmhvWlhrKlncn.
+d-i user-setup/allow-password-weak                          boolean     false
+
+# configure apt
+d-i apt-setup/restricted                                    boolean     true
+d-i apt-setup/universe                                      boolean     true
+d-i apt-setup/backports                                     boolean     true
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+tasksel tasksel/first                                       multiselect Basic Ubuntu server
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/update-policy                                    select      none
+d-i pkgsel/updatedb                                         boolean     true
+
+# disk partitioning
+d-i preseed/early_command string umount /media || true
+d-i partman/alignment string cylinder
+d-i partman/confirm_write_new_label boolean true
+d-i partman-basicfilesystems/choose_label string gpt
+d-i partman-basicfilesystems/default_label string gpt
+d-i partman-partitioning/choose_label string gpt
+d-i partman-partitioning/default_label string gpt
+d-i partman/choose_label string gpt
+d-i partman/default_label string gpt
+
+d-i partman-auto/method string regular
+d-i partman-auto/choose_recipe select gpt-boot-root-swap
+d-i partman-auto/expert_recipe string         \
+   gpt-boot-root-swap ::                      \
+      200 200 200 fat32                       \
+         $primary{ }                          \
+         method{ efi } format{ } .            \
+      5000 250 5000 linux-swap                \
+         $primary{ }                          \
+         method{ swap } format{ } .           \
+      250000 350 250001 ext4                  \
+         $primary{ }                          \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext4 } \
+         mountpoint{ /media/plugin-data } .   \
+      550000 512 550001 ext4                  \
+         $primary{ }                          \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext4 } \
+         mountpoint{ /media/sys-data } .      \
+      12000 20000 12001 ext4                  \
+         $primary{ } $bootable{ }             \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext4 } \
+         mountpoint{ / } .                    
+
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+# grub boot loader
+d-i grub-installer/only_debian                              boolean     true
+d-i grub-installer/with_other_os                            boolean     true
+
+# finish installation
+d-i finish-install/reboot_in_progress                       note
+d-i finish-install/keep-consoles                            boolean     false
+d-i cdrom-detect/eject                                      boolean     true
+d-i debian-installer/exit/halt                              boolean     false
+d-i debian-installer/exit/poweroff                          boolean     false
+
+# setup firstrun script
+d-i preseed/late_command                                    string      cp -r /cdrom/wscripts/apt /target/root/ ; cp /cdrom/wscripts/first-boot.sh /target/etc/rc.local ; cp /cdrom/wscripts/manual-first-boot.sh /target/root/manual-first-boot.sh ; cp /cdrom/wscripts/version /target/root/ ; cp /cdrom/wscripts/01-network-manager-all.yaml /target/root/ ; chroot /target chmod +x /etc/rc.local ; chroot /target chmod +x /root/manual-first-boot.sh ; cp -r /cdrom/wscripts/id_rsa_waggle_registration.enc /target/root/id_rsa_waggle_registration.enc ; sync /target/
