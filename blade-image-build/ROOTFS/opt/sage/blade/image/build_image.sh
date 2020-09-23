@@ -4,8 +4,8 @@
 wget http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.5-server-amd64.iso
 
 #unpack iso
-mkdir /mnt/iso  
-mount -o loop ubuntu-18.04.5-server-amd64.iso /mnt/iso/  
+mkdir /mnt/iso
+mount -o loop ubuntu-18.04.5-server-amd64.iso /mnt/iso/
 
 #move contents to rw access
 mkdir iso

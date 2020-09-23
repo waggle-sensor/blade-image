@@ -9,7 +9,7 @@ FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y \
   mkisofs \
-  wget 
+  wget
 
 COPY ROOTFS/ /
 
@@ -18,4 +18,3 @@ WORKDIR /opt/sage/blade/image/
 RUN chmod +x build_image.sh
 
 CMD ["./build_image.sh"]
-

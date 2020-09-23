@@ -84,7 +84,7 @@ d-i partman-auto/expert_recipe string         \
          $primary{ } $bootable{ }             \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
-         mountpoint{ / } .                    
+         mountpoint{ / } .
 
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#check if waggle registartion is in the right place, if so, change permissions. 
+#check if waggle registartion is in the right place, if so, change permissions.
 touch /etc/waggle/id_rsa_waggle_registration
-if [ "$(shasum /etc/waggle/id_rsa_waggle_registration | cut -d ' ' -f 1)" == "5fd9b3233c94e6b17f67120222c1e765530cb149" ]; then 
+if [ "$(shasum /etc/waggle/id_rsa_waggle_registration | cut -d ' ' -f 1)" == "5fd9b3233c94e6b17f67120222c1e765530cb149" ]; then
  echo "Registration Key in-place, continuing..."
-else 
+else
  echo "Please unlock the registration key to continue..."
  openssl aes-256-cbc -md sha512 -pbkdf2 -iter 100000 -salt -d -in /root/id_rsa_waggle_registration.enc -out /etc/waggle/id_rsa_waggle_registration
  chmod 600 /etc/waggle/id_rsa_waggle_registration
@@ -23,10 +23,10 @@ if [ $? -eq 0 ]; then
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
-    apt-get -y update 
+    apt-get -y update
 
-    apt-get -y install aptitude 
-    aptitude update 
+    apt-get -y install aptitude
+    aptitude update
     aptitude -y safe-upgrade
     aptitude -y install docker-ce docker-ce-cli containerd.io ssh ansible git htop iotop iftop bwm-ng screen nmap sshfs autossh network-manager apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 
