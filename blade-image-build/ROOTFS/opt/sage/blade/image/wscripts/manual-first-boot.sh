@@ -27,7 +27,6 @@ if [ $? -eq 0 ]; then
 
     apt-get -y install aptitude
     aptitude update
-    aptitude -y safe-upgrade
     aptitude -y install docker-ce docker-ce-cli containerd.io ssh ansible git htop iotop iftop bwm-ng screen nmap sshfs autossh network-manager apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 
     curl https://raw.githubusercontent.com/sagecontinuum/nodes/master/sage-blade/Blade-Image/files/waggle-registration > /usr/bin/waggle-registration
