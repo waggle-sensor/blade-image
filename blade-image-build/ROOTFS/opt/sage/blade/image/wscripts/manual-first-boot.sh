@@ -24,7 +24,8 @@ if [ $? -eq 0 ]; then
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
     apt-get -y update
-    apt-get -y install docker-ce docker-ce-cli containerd.io ssh ansible git htop iotop iftop bwm-ng screen nmap sshfs autossh network-manager apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+    apt-get -y install $(cat /root/base_packages)
+    apt-get -y install docker-ce docker-ce-cli containerd.io
 
     curl https://raw.githubusercontent.com/sagecontinuum/nodes/master/sage-blade/Blade-Image/files/waggle-registration > /usr/bin/waggle-registration
     curl https://raw.githubusercontent.com/sagecontinuum/nodes/master/sage-blade/Blade-Image/files/waggle-reverse-tunnel > /usr/bin/waggle-reverse-tunnel
@@ -55,7 +56,7 @@ else
     echo "Offline, no network connectivity, so trying offline install"
     cp -r /root/apt/* /var/cache/apt/
     sync /var/cache/apt/
-    apt-get -y install ssh ansible git htop iotop iftop bwm-ng screen nmap sshfs autossh network-manager apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+    apt-get -y install $(cat /root/base_packages)
     rm /etc/netplan/*.yaml
     cp /root/01-network-manager-all.yaml /etc/netplan/01-network-manager-all.yaml
     netplan generate

@@ -18,6 +18,7 @@ cp grub.cfg iso/boot/grub/grub.cfg
 cp txt.cfg iso/isolinux/txt.cfg
 
 mkdir -p iso/wscripts
+cp base_packages iso/wscripts/
 cp -r wscripts/* iso/wscripts
 
 cd iso/
