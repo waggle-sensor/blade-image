@@ -27,12 +27,8 @@ if [ $? -eq 0 ]; then
     apt-get -y install $(cat /root/base_packages)
     apt-get -y install docker-ce docker-ce-cli containerd.io
 
-    curl https://raw.githubusercontent.com/sagecontinuum/nodes/master/sage-blade/Blade-Image/files/waggle-registration > /usr/bin/waggle-registration
-    curl https://raw.githubusercontent.com/sagecontinuum/nodes/master/sage-blade/Blade-Image/files/waggle-reverse-tunnel > /usr/bin/waggle-reverse-tunnel
-    curl https://raw.githubusercontent.com/sagecontinuum/nodes/master/sage-blade/Blade-Image/files/waggle-registration.service > /etc/systemd/system/waggle-registration.service
-    curl https://raw.githubusercontent.com/sagecontinuum/nodes/master/sage-blade/Blade-Image/files/waggle-reverse-tunnel.service > /etc/systemd/system/waggle-reverse-tunnel.service
-    chmod 755 /usr/bin/waggle-registration
-    chmod 755 /usr/bin/waggle-reverse-tunnel
+    curl -L https://github.com/waggle-sensor/beekeeper-registration/releases/download/v1.1.0/waggle-registration_1.1.0.local-47ccaae_all.deb > waggle-registration.deb
+    curl -L https://github.com/waggle-sensor/beekeeper-registration/releases/download/v1.1.0/waggle-reverse-tunnel_1.1.0.local-47ccaae_all.deb > waggle-reverse-tunnel.deb
 
     echo "ListenAddress 127.0.0.1" >> /etc/ssh/sshd_config
     echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
@@ -45,8 +41,8 @@ if [ $? -eq 0 ]; then
     netplan apply
     systemctl restart network-manager
 
-    systemctl enable waggle-registration.service waggle-reverse-tunnel.service
-    systemctl start waggle-registration.service waggle-reverse-tunnel.service
+    dpkg -i waggle-registration.deb
+    dpkg -i waggle-reverse-tunnel.deb
 
     sed -i 's|overlayroot=""|overlayroot="device:dev=/dev/sda4,timeout=180,recurse=0"|' /etc/overlayroot.conf
     echo "Set up finished, please reboot now..."
