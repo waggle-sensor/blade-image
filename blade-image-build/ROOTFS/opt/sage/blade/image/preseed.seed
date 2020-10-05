@@ -84,7 +84,7 @@ d-i partman-auto/expert_recipe string         \
          $primary{ } $bootable{ }             \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
-         mountpoint{ / } .                    
+         mountpoint{ / } .
 
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
@@ -103,4 +103,4 @@ d-i debian-installer/exit/halt                              boolean     false
 d-i debian-installer/exit/poweroff                          boolean     false
 
 # setup firstrun script
-d-i preseed/late_command                                    string      cp -r /cdrom/wscripts/apt /target/root/ ; cp /cdrom/wscripts/first-boot.sh /target/etc/rc.local ; cp /cdrom/wscripts/manual-first-boot.sh /target/root/manual-first-boot.sh ; cp /cdrom/wscripts/version /target/root/ ; cp /cdrom/wscripts/01-network-manager-all.yaml /target/root/ ; chroot /target chmod +x /etc/rc.local ; chroot /target chmod +x /root/manual-first-boot.sh ; cp -r /cdrom/wscripts/id_rsa_waggle_registration.enc /target/root/id_rsa_waggle_registration.enc ; sync /target/
+d-i preseed/late_command                                    string      cp -r /cdrom/wscripts/apt /target/root/ ; cp /cdrom/wscripts/first-boot.sh /target/etc/rc.local ; cp /cdrom/wscripts/base_packages /target/root/base_packages ; cp /cdrom/wscripts/manual-first-boot.sh /target/root/manual-first-boot.sh ; cp /cdrom/wscripts/version /target/root/ ; cp /cdrom/wscripts/01-network-manager-all.yaml /target/root/ ; chroot /target chmod +x /etc/rc.local ; chroot /target chmod +x /root/manual-first-boot.sh ; cp -r /cdrom/wscripts/id_rsa_waggle_registration.enc /target/root/id_rsa_waggle_registration.enc ; sync /target/

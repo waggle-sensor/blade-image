@@ -4,8 +4,8 @@
 wget http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.5-server-amd64.iso
 
 #unpack iso
-mkdir /mnt/iso  
-mount -o loop ubuntu-18.04.5-server-amd64.iso /mnt/iso/  
+mkdir /mnt/iso
+mount -o loop ubuntu-18.04.5-server-amd64.iso /mnt/iso/
 
 #move contents to rw access
 mkdir iso
@@ -18,6 +18,7 @@ cp grub.cfg iso/boot/grub/grub.cfg
 cp txt.cfg iso/isolinux/txt.cfg
 
 mkdir -p iso/wscripts
+cp base_packages iso/wscripts/
 cp -r wscripts/* iso/wscripts
 
 cd iso/
