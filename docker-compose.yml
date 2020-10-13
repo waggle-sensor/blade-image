@@ -1,9 +1,0 @@
-version: '3.7'
-services:
-  blade-image-build:
-    build: blade-image-build
-    cap_add:
-      - SYS_ADMIN
-    privileged: true
-    volumes:
-      - ".:/output/"

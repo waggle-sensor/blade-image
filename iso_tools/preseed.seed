@@ -15,8 +15,8 @@ d-i keyboard-configuration/xkb-keymap                       select      us(intl)
 d-i debconf/language                                        string      en_US:en
 
 # network settings
-d-i netcfg/choose_interface                                 select      auto
-d-i netcfg/dhcp_timeout                                     string      5
+d-i netcfg/enable 				                                  boolean     false
+d-i netcfg/choose_interface 				                        select      auto
 d-i netcfg/get_hostname                                     string      changeme
 d-i netcfg/get_domain                                       string      changeme
 
@@ -38,16 +38,16 @@ d-i passwd/root-password-crypted                            password    $1$NUn69
 d-i user-setup/allow-password-weak                          boolean     false
 
 # configure apt
-d-i apt-setup/restricted                                    boolean     true
-d-i apt-setup/universe                                      boolean     true
-d-i apt-setup/backports                                     boolean     true
-d-i apt-setup/services-select                               multiselect security
-d-i apt-setup/security_host                                 string      security.ubuntu.com
-d-i apt-setup/security_path                                 string      /ubuntu
+d-i apt-setup/use_mirror                                    boolean     false
+d-i apt-setup/services-select                               multiselect
+
 tasksel tasksel/first                                       multiselect Basic Ubuntu server
-d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/include                                          string \
+    iputils-arping nmap openssh-server openssh-sftp-server python2.7 \
+    wpasupplicant
+d-i pkgsel/upgrade                                          select      none
 d-i pkgsel/update-policy                                    select      none
-d-i pkgsel/updatedb                                         boolean     true
+d-i pkgsel/updatedb                                         boolean     false
 
 # disk partitioning
 d-i preseed/early_command string umount /media || true
@@ -62,34 +62,38 @@ d-i partman/default_label string gpt
 
 d-i partman-auto/method string regular
 d-i partman-auto/choose_recipe select gpt-boot-root-swap
-d-i partman-auto/expert_recipe string         \
-   gpt-boot-root-swap ::                      \
-      200 200 200 fat32                       \
-         $primary{ }                          \
-         method{ efi } format{ } .            \
-      5000 250 5000 linux-swap                \
-         $primary{ }                          \
-         method{ swap } format{ } .           \
-      250000 350 250001 ext4                  \
-         $primary{ }                          \
-         method{ format } format{ }           \
-         use_filesystem{ } filesystem{ ext4 } \
-         mountpoint{ /media/plugin-data } .   \
-      550000 512 550001 ext4                  \
-         $primary{ }                          \
-         method{ format } format{ }           \
-         use_filesystem{ } filesystem{ ext4 } \
-         mountpoint{ /media/sys-data } .      \
-      12000 20000 12001 ext4                  \
-         $primary{ } $bootable{ }             \
-         method{ format } format{ }           \
-         use_filesystem{ } filesystem{ ext4 } \
-         mountpoint{ / } .
+# Swap: 16GB, / 16GB, sys-data 256GB, plugin-data 256GB (min; 100% of rest)
+d-i partman-auto/expert_recipe string            \
+    gpt-boot-root-swap ::                        \
+        200 200 200 fat32                        \
+            $primary{ }                          \
+            method{ efi } format{ } .            \
+        16384 16384 16384 linux-swap             \
+            $primary{ }                          \
+            method{ swap } format{ } .           \
+        16384 16384 16384 ext4                   \
+            $primary{ } $bootable{ }             \
+            method{ format } format{ }           \
+            use_filesystem{ } filesystem{ ext4 } \
+            label { root }                       \
+            mountpoint{ / } .                    \
+        262144 262144 262144 ext4                \
+            $primary{ }                          \
+            method{ format } format{ }           \
+            use_filesystem{ } filesystem{ ext4 } \
+            label { sys-data }                   \
+            mountpoint{ /media/sys-data } .      \
+        262144 262244 -1 ext4                    \
+            $primary{ }                          \
+            method{ format } format{ }           \
+            use_filesystem{ } filesystem{ ext4 } \
+            label { plugin-data }                \
+            mountpoint{ /media/plugin-data } .
 
-d-i partman-partitioning/confirm_write_new_label boolean true
-d-i partman/choose_partition select finish
-d-i partman/confirm boolean true
-d-i partman/confirm_nooverwrite boolean true
+d-i partman-partitioning/confirm_write_new_label            boolean     true
+d-i partman/choose_partition                                select      finish
+d-i partman/confirm                                         boolean     true
+d-i partman/confirm_nooverwrite                             boolean     true
 
 # grub boot loader
 d-i grub-installer/only_debian                              boolean     true
@@ -103,4 +107,8 @@ d-i debian-installer/exit/halt                              boolean     false
 d-i debian-installer/exit/poweroff                          boolean     false
 
 # setup firstrun script
-d-i preseed/late_command                                    string      cp -r /cdrom/wscripts/apt /target/root/ ; cp /cdrom/wscripts/first-boot.sh /target/etc/rc.local ; cp /cdrom/wscripts/base_packages /target/root/base_packages ; cp /cdrom/wscripts/manual-first-boot.sh /target/root/manual-first-boot.sh ; cp /cdrom/wscripts/version /target/root/ ; cp /cdrom/wscripts/01-network-manager-all.yaml /target/root/ ; chroot /target chmod +x /etc/rc.local ; chroot /target chmod +x /root/manual-first-boot.sh ; cp -r /cdrom/wscripts/id_rsa_waggle_registration.enc /target/root/id_rsa_waggle_registration.enc ; sync /target/
+d-i preseed/late_command                                    string \
+    for deb in /cdrom/pool/extras/*.deb; do cp $deb /target/tmp; \
+      chroot /target dpkg -i /tmp/$(basename $deb); done ; \
+    cp -r /cdrom/ROOTFS/* /target/ ; \
+    in-target /bin/chmod +x /etc/rc.local
