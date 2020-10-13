@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# First boot script on end-system
+
+sed -i '/efi/d' /etc/fstab
+sed -i '/\/media\/sys-data/d' /etc/fstab
+# umount /boot/efi
+# umount /media/sys-data
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# configure docker plugin-data partition
+ln -s /media/plugin-data /var/lib/docker
+
+# update ssh conf
+echo "ListenAddress 127.0.0.1" >> /etc/ssh/sshd_config
+echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
+
+# configure root overlay
+sed -i 's|overlayroot=""|overlayroot="device:dev=/dev/sda4,timeout=180,recurse=0"|' /etc/overlayroot.conf
+
+mv /etc/rc.local /etc/rc.local.$(date '+%Y%m%d-%H%M%S').bck
+reboot
