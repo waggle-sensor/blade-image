@@ -40,6 +40,9 @@ d-i user-setup/allow-password-weak                          boolean     false
 # configure apt
 d-i apt-setup/use_mirror                                    boolean     false
 d-i apt-setup/services-select                               multiselect
+d-i apt-setup/restricted                                    boolean     true
+d-i apt-setup/universe                                      boolean     true
+d-i apt-setup/backports                                     boolean     true
 
 tasksel tasksel/first                                       multiselect Basic Ubuntu server
 d-i pkgsel/include                                          string \
