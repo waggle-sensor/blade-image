@@ -46,7 +46,7 @@ d-i apt-setup/backports                                     boolean     true
 
 tasksel tasksel/first                                       multiselect Basic Ubuntu server
 d-i pkgsel/include                                          string \
-    iputils-arping nmap openssh-server openssh-sftp-server python2.7 \
+    ifupdown iputils-arping nmap openssh-server openssh-sftp-server python2.7 \
     wpasupplicant
 d-i pkgsel/upgrade                                          select      none
 d-i pkgsel/update-policy                                    select      none
