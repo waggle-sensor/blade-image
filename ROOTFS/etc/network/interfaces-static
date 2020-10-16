@@ -1,0 +1,10 @@
+# This is an example interface file for setting a static IP for the main
+# interface (eno1). To apply, move this file to /etc/network/interfaces
+# (replacing the existing file) and reboot to apply the settings.
+
+# auto eno1
+# iface eno1 inet static
+# address 99.88.77.66
+# netmask 255.255.255.0
+# gateway 99.88.77.1
+# dns-nameservers 8.8.8.8 8.8.4.4

@@ -131,9 +131,22 @@ cat /etc/waggle/reverse_ssh_port
 
 ### 3) Configure Network Access
 
-For now, the blade will automatically use DHCP to configure it's network access.
-However, this may be something we want to revisit as some nodes may need
-manually assigned IP's. Will update after further discussion.
+By default the OS will have all network interfaces disabled.
+
+#### To enable DHCP
+
+To re-enabled all the interfaces and enabled DHCP IP address allocation simply
+delete the `/etc/NetworkManager/conf.d/99-disabled.conf` file and reboot.
+
+#### To set a static IP address
+
+To set a static IP for the `eno1` (or `eno2`) interface use the following steps:
+
+1. Delete the `/etc/NetworkManager/conf.d/99-disabled.conf` file
+2. Edit the `/etc/network/interfaces-static` file as necessary for the network
+3. Move the `/etc/network/interfaces-static` to `/etc/network/interfaces`
+(replacing the existing file)
+4. Reboot
 
 ## How the "required Debian package" list is created
 
