@@ -29,6 +29,13 @@ rm -rf /var/lib/docker
 mkdir -p /media/plugin-data/docker
 ln -s /media/plugin-data/docker /var/lib/docker
 
+#configure k3s plugin-data partition
+log "Move k3s storage to external media"
+mkdir -p /media/plugin-data/k3s/kubelet
+mkdir -p /media/plugin-data/k3s/rancher
+ln -s /media/plugin-data/k3s/kubelet/ /var/lib/kubelet
+ln -s /media/plugin-data/k3s/rancher/ /var/lib/rancher
+
 # update ssh conf
 log "Configure SSHD Config"
 echo "ListenAddress 127.0.0.1" >> /etc/ssh/sshd_config
