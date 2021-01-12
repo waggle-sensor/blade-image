@@ -22,6 +22,11 @@ cp -r /isodebs/* /iso/pool/extras/
 mkdir -p /ROOTFS/etc
 echo $VERSION > /ROOTFS/etc/sage_version_os
 
+mkdir -p /ROOTFS/usr/local/bin/
+wget https://github.com/rancher/k3s/releases/download/v1.20.0+k3s2/k3s
+chmod +x k3s
+cp k3s /ROOTFS/usr/local/bin/
+
 # copy all the SAGE specifics for the end file-system to the ISO
 cp -r /ROOTFS /iso/
 
