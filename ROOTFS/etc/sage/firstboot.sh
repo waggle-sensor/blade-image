@@ -35,6 +35,7 @@ mkdir -p /media/plugin-data/k3s/kubelet
 mkdir -p /media/plugin-data/k3s/rancher
 ln -s /media/plugin-data/k3s/kubelet/ /var/lib/kubelet
 ln -s /media/plugin-data/k3s/rancher/ /var/lib/rancher
+INSTALL_K3S_SKIP_DOWNLOAD=true /etc/sage/install.sh
 
 # update ssh conf
 log "Configure SSHD Config"
