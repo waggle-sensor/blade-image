@@ -4,10 +4,10 @@ Conflicts=shutdown.target
 After=syslog.service
 Before=docker.service shutdown.target
 Wants=syslog.service docker.service
-ConditionPathExists=/etc/sage/firstboot.sh
+ConditionPathExists=/etc/waggle/firstboot.sh
 
 [Service]
-ExecStart=/etc/sage/firstboot.sh
+ExecStart=/etc/waggle/firstboot.sh
 Type=oneshot
 RemainAfterExit=yes
 TimeoutStartSec=30s

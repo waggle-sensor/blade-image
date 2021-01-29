@@ -17,7 +17,7 @@ jobs:
         id: build_project
         run: |
           ./build.sh
-          echo "##[set-output name=dell;]$(ls *.iso)"
+          echo "##[set-output name=blade-image;]$(ls *.iso)"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -28,7 +28,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Upload Release Asset (Blade-Image)
+      - name: Upload Release Asset (Blade Image)
         id: upload-release-asset-blade-image
         uses: actions/upload-release-asset@v1
         env:
