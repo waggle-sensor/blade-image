@@ -16,3 +16,6 @@ curl -s -L https://nvidia.github.io/nvidia-container-runtime/experimental/$distr
 
 apt-get update
 apt-get install -y nvidia-docker2
+
+#restart docker service to recognize gpu change
+systemctl restart docker
