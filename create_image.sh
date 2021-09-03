@@ -17,6 +17,8 @@ cp /iso_tools/grub.cfg /iso/boot/grub/grub.cfg
 cp /iso_tools/txt.cfg /iso/isolinux/txt.cfg
 
 # copy required debs
+ls -lah /isodebs/*
+echo "Additional Debs: $(ls -la /isodebs/* | wc -l) [$(du -hs /isodebs/)]"
 mkdir -p /iso/pool/extras
 cp -r /isodebs/* /iso/pool/extras/
 
