@@ -1,5 +1,5 @@
 [Unit]
-Description=SAGE First Boot Service
+Description=Waggle First Boot Service
 Conflicts=shutdown.target
 After=syslog.service
 Before=docker.service shutdown.target

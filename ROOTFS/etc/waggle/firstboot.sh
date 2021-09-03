@@ -2,7 +2,7 @@
 
 # Helper logging functions to log to rsyslog
 # 1: message to log
-SYSLOGTAG="sage-init"
+SYSLOGTAG="waggle-init"
 log () {
     echo "$1" | logger -t ${SYSLOGTAG}
 }
@@ -47,8 +47,8 @@ log "Enable overlayroot"
 sed -i 's|overlayroot=""|overlayroot="device:dev=/dev/sda4,timeout=180,recurse=0,swap=1"|' /etc/overlayroot.conf
 
 log "Disable first boot script"
-mv /etc/sage/firstboot.sh /etc/sage/firstboot.sh.$(date '+%Y%m%d-%H%M%S').bck
+mv /etc/waggle/firstboot.sh /etc/waggle/firstboot.sh.$(date '+%Y%m%d-%H%M%S').bck
 
-wall -n "SAGE first boot: configuration complete (reboot needed to finish setup)"
+wall -n "Waggle first boot: configuration complete (reboot needed to finish setup)"
 log "First boot configuration complete, Schedule reboot"
 shutdown -r +1

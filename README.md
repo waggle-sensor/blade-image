@@ -1,11 +1,11 @@
 # Blade-Image
 
-Creates an ISO containing the SAGE customized Ubuntu (18.04) installation for x86
+Creates an ISO containing the Waggle customized Ubuntu (18.04) installation for x86
 machines (i.e. Dell blade servers).
 
 The build process downloads a stock Ubuntu server ISO, unpacks it, makes
 installation (ex. preseed) modifications, adds required Debian packages,
-copies SAGE specific root file system files, and re-packs the ISO.
+copies Waggle specific root file system files, and re-packs the ISO.
 
 ## Usage
 
@@ -17,21 +17,19 @@ To trigger a build simply execute `./build.sh`.
 ./build.sh
 ```
 
-The output of the build process will be a versioned SAGE customized Ubuntu ISO.
-For example: `sage-ubuntu_dell-1.0.0.local-46ac2f1.iso`
+The output of the build process will be a versioned Waggle customized Ubuntu ISO.
+For example: `waggle-ubuntu_dell-1.2.3-4-46ac2f1.iso`
 
 ### Version explained
 
-Where the version `1.2.3.local-46ac2f1` can be broken down into the following fields:
-- `1.2.3`: the "major", "minor", and "patch" version from the `version` file
-- `local`: from the `$BUILD_NUMBER` environment variable (`local` if not specified)
-- `46ac2f1`: the 7 digit git SHA1 of this project at the time the build was created
+The version `dell-1.2.3-4-46ac2f1` is broken down into the following sections:
+- `dell-1.2.3-4-46ac2f1`: the first 4 values are derived from the most recent
+`git` version tag (i.e. `v1.2.3`) applied (using the `git describe` command).
+The string after the last dash (`-`) is the 7 digit git SHA1 of this project at the
+time the build was created.
 
 *Note*: This version field will also appear in the resulting file system @
-`/etc/sage_version_os`.
-
-**Important**: The `version` file needs to be updated with each change to
-this code base to indicate a change in version of the SAGE Ubuntu OS.
+`/etc/waggle_version_os`.
 
 ## Important folders
 
@@ -152,7 +150,7 @@ To set a static IP for the `eno1` (or `eno2`) interface use the following steps:
 
 The `required_deb_packages.txt` file contains a list of Debian packages
 (and versions) to be included in the ISO for installation to the resulting
-SAGE Ubuntu system.  This list contains Debian packages that are **not** already
+Waggle Ubuntu system.  This list contains Debian packages that are **not** already
 available within the stock Ubuntu ISO (i.e. `/pool/main`) that are desired to
 be installed onto the system at install time.
 
@@ -166,7 +164,7 @@ and their dependencies (i.e. `python=2.7.15~rc1-1`).
 
 The process to modify this list is the following:
 
-1. Login to a system running the current version of the Sage Ubuntu OS
+1. Login to a system running the current version of the Waggle Ubuntu OS
 (created by this build).
 2. Using `apt` install the desired package(s) (i.e. `apt-get install curl --dry-run --no-upgrade --no-install-recommends`).
 3. Identify the list of Debian packages that would be installed via the `Inst`
