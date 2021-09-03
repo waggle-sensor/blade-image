@@ -68,6 +68,7 @@ docker build -f Dockerfile -t blade_image_build \
     --build-arg REQ_PACKAGES="${REQ_PACKAGES}" .
 docker run $TTY --rm --privileged \
     -v ${PWD}:/output \
+    --env UBUNTU_IMG=${UBUNTU_IMG} \
     --env OUTPUT_NAME=${OUTPUT_NAME} \
     --env VERSION=${PROJ_VERSION} \
     blade_image_build $CMD

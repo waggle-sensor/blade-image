@@ -6,9 +6,10 @@ echo "Building Dell Waggle Ubuntu [$VERSION]"
 mkdir /mnt/iso
 mount -o loop /${UBUNTU_IMG} /mnt/iso/
 
-#move contents to rw access
+#copy contents to rw access
 mkdir /iso
 cp -rT /mnt/iso/ /iso/
+umount /mnt/iso/
 
 #grab neccessary build files
 cp /iso_tools/preseed.seed /iso/preseed/
