@@ -37,7 +37,7 @@ ARG REQ_PACKAGES
 RUN mkdir /isodebs
 RUN cd /isodebs && apt-get update && apt-get download -y $REQ_PACKAGES
 
-# Add the SAGE/Waggle debian packages
+# Add the Waggle debian packages
 RUN cd /isodebs && \
     wget https://github.com/waggle-sensor/beekeeper-registration/releases/download/v1.1.0/waggle-registration_1.1.0.local-47ccaae_all.deb
 RUN cd /isodebs && \

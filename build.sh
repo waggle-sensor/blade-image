@@ -5,7 +5,7 @@ print_help() {
 usage: build.sh [-d]
 
 Create a modified Ubuntu ISO from a base Ubuntu ISO that contains all
-neccessary packages and SAGE software tools for installation on a Dell blade.
+neccessary packages and Waggle software tools for installation on a Dell blade.
 
   -o : (optional) output filename (i.e. custom_name) (default: dell)
   -d : don't build the image and enter debug mode within the Docker build environment.
@@ -15,7 +15,7 @@ neccessary packages and SAGE software tools for installation on a Dell blade.
 }
 
 CMD="./create_image.sh"
-OUTPUT_NAME="sage-ubuntu"
+OUTPUT_NAME="waggle-ubuntu"
 BUILDNAME="dell"
 UBUNTU_IMG="ubuntu-18.04.5-server-amd64.iso"
 FORCE=
