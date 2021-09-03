@@ -5,7 +5,7 @@
 #           http://www.wa8.gl
 # ANL:waggle-license
 
-FROM ubuntu:18.04
+FROM amd64/ubuntu:bionic-20200921
 
 RUN apt-get update && apt-get install -y \
   curl \
