@@ -29,7 +29,7 @@ RUN add-apt-repository \
    stable"
 
 # Download the base Ubuntu ISO (don't use var in curl to use docker cache)
-ENV UBUNTU_IMG=ubuntu-18.04.5-server-amd64.iso
+ARG UBUNTU_IMG
 RUN curl -L http://cdimage.ubuntu.com/releases/18.04/release/$UBUNTU_IMG > /$UBUNTU_IMG
 
 # Download all the required debian packages for inclusion in the ISO
