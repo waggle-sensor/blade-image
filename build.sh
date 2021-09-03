@@ -61,11 +61,13 @@ PWD=`pwd`
 
 # get the list of all required debian packages to install in final image
 REQ_PACKAGES=$(sed -e '/^#/d' required_deb_packages.txt | tr '\n' ' ')
+REQ_PACKAGES_NVIDIA=$(sed -e '/^#/d' required_deb_nvidia_packages.txt | tr '\n' ' ')
 
 # create and run the Docker build environment
 docker build -f Dockerfile -t blade_image_build \
     --build-arg UBUNTU_IMG="${UBUNTU_IMG}" \
-    --build-arg REQ_PACKAGES="${REQ_PACKAGES}" .
+    --build-arg REQ_PACKAGES="${REQ_PACKAGES}" \
+    --build-arg REQ_PACKAGES_NVIDIA="${REQ_PACKAGES_NVIDIA}" .
 docker run $TTY --rm --privileged \
     -v ${PWD}:/output \
     --env UBUNTU_IMG=${UBUNTU_IMG} \

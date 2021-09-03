@@ -32,10 +32,17 @@ RUN add-apt-repository \
 ARG UBUNTU_IMG
 RUN curl -L http://cdimage.ubuntu.com/releases/18.04/release/$UBUNTU_IMG > /$UBUNTU_IMG
 
-# Download all the required debian packages for inclusion in the ISO
+# Download all the required Debian packages for inclusion in the ISO
 ARG REQ_PACKAGES
-RUN mkdir /isodebs
+RUN mkdir -p /isodebs
 RUN cd /isodebs && apt-get update && apt-get download -y $REQ_PACKAGES
+
+# Download all the Nvidia Debian packages
+ARG REQ_PACKAGES_NVIDIA
+COPY /build/nvidia_apt/*.asc /etc/apt/trusted.gpg.d/
+COPY /build/nvidia_apt/*.list /etc/apt/sources.list.d/
+RUN mkdir -p /isodebs
+RUN cd /isodebs && apt-get update && apt-get download -y $REQ_PACKAGES_NVIDIA
 
 # Add the Waggle debian packages
 RUN cd /isodebs && \
