@@ -31,7 +31,7 @@ cp k3s /ROOTFS/usr/local/bin/
 # copy all the Waggle specifics for the end file-system to the ISO
 cp -r /ROOTFS /iso/
 
-ouputfile="$OUTPUT_NAME_$VERSION.iso"
+ouputfile="${OUTPUT_NAME}_${VERSION}.iso"
 pushd /iso
 mkisofs -D -r -V "AUTOINSTALL" -cache-inodes -J -l -b isolinux/isolinux.bin \
     -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o \
