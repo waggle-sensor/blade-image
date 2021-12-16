@@ -1,0 +1,4 @@
+TODO
+
+add waggle-firewall service
+- ensure runs before dnsmasq, k3s, docker, others as in WSN
