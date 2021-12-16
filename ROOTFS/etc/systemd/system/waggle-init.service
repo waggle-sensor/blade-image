@@ -2,8 +2,8 @@
 Description=Waggle First Boot Service
 Conflicts=shutdown.target
 After=syslog.service
-Before=docker.service shutdown.target
-Wants=syslog.service docker.service
+Before=k3s.service docker.service shutdown.target
+Wants=k3s.service docker.service syslog.service
 ConditionPathExists=/etc/waggle/firstboot.sh
 
 [Service]
