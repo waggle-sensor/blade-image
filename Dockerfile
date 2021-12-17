@@ -30,7 +30,7 @@ RUN add-apt-repository \
 
 # Download the base Ubuntu ISO (don't use var in curl to use docker cache)
 ARG UBUNTU_IMG
-RUN curl -L http://cdimage.ubuntu.com/releases/18.04/release/$UBUNTU_IMG > /$UBUNTU_IMG
+RUN curl -L https://old-releases.ubuntu.com/releases/bionic/$UBUNTU_IMG > /$UBUNTU_IMG
 
 # Download all the required Debian packages for inclusion in the ISO
 ARG REQ_PACKAGES
