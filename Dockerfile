@@ -8,9 +8,9 @@
 FROM amd64/ubuntu:bionic-20200921
 
 RUN apt-get update && apt-get install -y \
-  curl \
-  mkisofs \
-  wget
+    curl \
+    mkisofs \
+    wget
 
 #########################################################
 ### Download and get all the required Debian packages
@@ -24,9 +24,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     software-properties-common
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable"
 
 # Download the base Ubuntu ISO (don't use var in curl to use docker cache)
 ARG UBUNTU_IMG
