@@ -1,4 +1,43 @@
 TODO
 
+scan all the "extra packages" to be sure we have the latest version
+- figure out how we scanned and created that list before and re-do it
+- look how i did it for the nvidia packages as an example
+- create a vm with the same .ISO and see what the delta in packages would be... should be the same?
+ - look at everything that we already had in our list of things to install and compare against what we install in the
+   WSN node and see what we are missing, or can remove.
+   it will probably be helpful to identify which of the packages is a dependency of others. as the deb list is all dependencies
+
+refresh the nvidia package list too
+
+figure out the additional debian packages we have added to the NX image that also need to be added
+- bluez ?
+
 add waggle-firewall service
 - ensure runs before dnsmasq, k3s, docker, others as in WSN
+install all other waggle specific packages that make sense
+
+Ensure the root user password is the same as on the NX
+
+Install the waggle k3s shutdown service
+
+figure out how k3s is installed and if we can do it better then having the k3s_install pre-downloaded
+- download it in the docker / ISO setup and have it copied to the ISO and then put on systems 
+
+setup k3s with same K3S_CLUSTER_SECRET=4tX0DUZ0uQknRtVUAKjt as WSN just in case we ever have a agents
+- k3s service changes (this would need to be a systemd override file, which means we need to be able to create "end filesystem" )
+
+NetworkManager lan0 configuration to the 2nd ethernet port (not the uplink one)
+- try to switch the lan0 configuration to be within NetworkManager system-connections just like WSN
+- why do we have a setting in /etc/network for static IPs ?
+
+configure journalctl, dump rsyslog
+- change the waggle-init from rsyslog to journalctl (remove the rsyslog config) (this may arleady just work)
+
+add the new bk registration with the file locked the same way as the current registration
+- needing a manual unlock, by the installer
+
+update authorized keys to match what is WSN
+
+setup the apt sources to match that of the WSN
+
