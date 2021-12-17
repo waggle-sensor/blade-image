@@ -30,6 +30,9 @@ setup k3s with same K3S_CLUSTER_SECRET=4tX0DUZ0uQknRtVUAKjt as WSN just in case 
 NetworkManager lan0 configuration to the 2nd ethernet port (not the uplink one)
 - try to switch the lan0 configuration to be within NetworkManager system-connections just like WSN
 - why do we have a setting in /etc/network for static IPs ?
+- IT IS BY DESIGN (see readme) THAT NETWORK IS DISABLED BY DEFAULT, we should still have the network system-connections in ROOTFS for when eventually
+  the network is unlocked
+- investigate how to do static IPs with the system-connections (in replacement of the stuff outlined in README)
 
 configure journalctl, dump rsyslog
 - change the waggle-init from rsyslog to journalctl (remove the rsyslog config) (this may arleady just work)
@@ -41,3 +44,7 @@ update authorized keys to match what is WSN
 
 setup the apt sources to match that of the WSN
 
+update the entire readme
+- specifically the unlock registartion part
+- the iso file name and version break down (if its changed)
+- the network section (restore and static IP)
