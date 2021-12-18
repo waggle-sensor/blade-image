@@ -9,6 +9,8 @@ scan all the "extra packages" to be sure we have the latest version
    it will probably be helpful to identify which of the packages is a dependency of others. as the deb list is all dependencies
 
 refresh the nvidia package list too
+ - when doing this use the instructions from the README that say to grep for Inst
+ - apt-get install curl --dry-run --no-upgrade cuda=11.0.3-1 nvidia-docker2=2.2.0-1 | grep Inst
 
 figure out the additional debian packages we have added to the NX image that also need to be added
 - bluez ?
