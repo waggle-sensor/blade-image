@@ -1,0 +1,25 @@
+# A config-deb file.
+
+# Points to where the unpacked iso is
+Dir {
+    ArchiveDir "/iso";
+};
+
+# Sets the top of the .deb directory tree.
+TreeDefault {
+   Directory "pool/";
+};
+
+# The location for a Packages file.
+# TODO: do we need i386 too?
+# TODO: maybe just put everything in main
+BinDirectory "pool/contrib" {
+   Packages "dists/bionic/contrib/binary-amd64/Packages";
+};
+
+# We are only interested in .deb files (.udeb for udeb files).
+Default {
+   Packages {
+       Extensions ".deb";
+    };
+};
