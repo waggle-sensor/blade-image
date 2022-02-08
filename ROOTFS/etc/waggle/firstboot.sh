@@ -13,6 +13,7 @@ log_warn() {
     echo "$1" | logger -t ${SYSLOGTAG} -p "warning"
 }
 # forward all stdout/stderr output to our rsyslog
+# TODO: remove this syslogger stuff, hope for journalctl to work
 exec 1> >(logger -s -t "$SYSLOGTAG") 2>&1
 
 log "Removing efi and media/sys-data from /etc/fstab"

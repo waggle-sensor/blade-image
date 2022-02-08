@@ -19,6 +19,11 @@ add waggle-firewall service
 - ensure runs before dnsmasq, k3s, docker, others as in WSN
 install all other waggle specific packages that make sense
 
+add waggle-wan-tunnel service
+
+add local docker registry service
+- do we need the docker mirrors?
+
 Ensure the root user password is the same as on the NX
 
 Install the waggle k3s shutdown service
