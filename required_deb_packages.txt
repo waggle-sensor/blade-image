@@ -1,1 +1,4 @@
+iftop=1.0~pre4-4
+iotop=0.6-2
+iperf=2.0.10+dfsg1-1ubuntu0.18.04.2
 tree=1.7.0-5
