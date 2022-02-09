@@ -50,8 +50,21 @@ add the new bk registration with the file locked the same way as the current reg
 update authorized keys to match what is WSN
 
 setup the apt sources to match that of the WSN
+- evaluate if we need to override the apt sources.list file
 
 update the entire readme
 - specifically the unlock registartion part
 - the iso file name and version break down (if its changed)
 - the network section (restore and static IP)
+
+validate NVidia GPU support for running containers
+- do we need that k3s config change to use the NVidia runtime
+
+disable the apt auto upgrade service timers
+- apt-daily-upgrade
+- apt-daily
+- motd
+
+remove items from firstboot script
+- do the overlay as part of the ROOTFS
+- others?

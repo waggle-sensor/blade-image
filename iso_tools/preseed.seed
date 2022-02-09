@@ -47,7 +47,7 @@ d-i apt-setup/backports                                     boolean     true
 tasksel tasksel/first                                       multiselect Basic Ubuntu server
 d-i pkgsel/include                                          string \
     bridge-utils e2fsprogs ifupdown iputils-arping nmap openssh-server \
-    openssh-sftp-server python2.7 whois wpasupplicant tree
+    openssh-sftp-server python2.7 whois wpasupplicant tree iftop iotop iperf
 d-i pkgsel/upgrade                                          select      none
 d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     false
