@@ -103,6 +103,8 @@ serveraction powercycle
 
 ### 2) Unlock Registration Key
 
+TODO: update 
+
 About 10 minutes after the OS installation started, we should be able to access the blade by executing the following command to racadm:
 
 ```

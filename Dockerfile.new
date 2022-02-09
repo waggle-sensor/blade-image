@@ -36,13 +36,16 @@ RUN apt-ftparchive generate /iso_tools/config-deb
 # TODO: this also adds a new date, is this okay?
 RUN sed -i '/SHA256:/,$d' /iso/dists/bionic/Release
 RUN apt-ftparchive release /iso/dists/bionic >> /iso/dists/bionic/Release
+# TEMP delete they signature file, to see if we can get past this
+RUN rm /iso/dists/bionic/Release.gpg
 
 # create new iso md5 checksum file
 RUN cd /iso; md5sum `find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -type f` > md5sum.txt;
 
 # TODO: left off on the override section (which may be optional) from here https://wiki.debian.org/DebianInstaller/Modify/CD
+## - skip this for now, lets see if things work
 
 # Copy final system root file system files
 COPY ROOTFS/ /ROOTFS
 
-COPY create_image.sh .
+COPY create_image2.sh .
