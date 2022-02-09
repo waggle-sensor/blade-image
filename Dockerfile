@@ -10,58 +10,36 @@ FROM amd64/ubuntu:bionic-20200921
 RUN apt-get update && apt-get install -y \
     curl \
     mkisofs \
-    wget
-
-#########################################################
-### Download and get all the required Debian packages
-
-# Add the docker sources as `docker` is in the REQ Package list
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-RUN add-apt-repository \
-    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) \
-    stable"
+    wget \
+    bsdtar \
+    dpkg-dev \
+    apt-utils \
+    vim
 
 # Download the base Ubuntu ISO (don't use var in curl to use docker cache)
 ARG UBUNTU_IMG
-RUN curl -L https://old-releases.ubuntu.com/releases/bionic/$UBUNTU_IMG > /$UBUNTU_IMG
+RUN curl -L https://old-releases.ubuntu.com/releases/bionic/${UBUNTU_IMG} > /${UBUNTU_IMG} \
+    && mkdir -p /iso && bsdtar -C iso/ -xf /${UBUNTU_IMG} && chmod -R +w /iso
 
-# Download all the required Debian packages for inclusion in the ISO
 ARG REQ_PACKAGES
-RUN mkdir -p /isodebs
-RUN cd /isodebs && apt-get update && apt-get download -y $REQ_PACKAGES
+RUN mkdir -p /iso/pool/contrib
+RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES
 
-# Download all the Nvidia Debian packages
-ARG REQ_PACKAGES_NVIDIA
-COPY /build/nvidia_apt/*.asc /etc/apt/trusted.gpg.d/
-COPY /build/nvidia_apt/*.list /etc/apt/sources.list.d/
-RUN mkdir -p /isodebs
-RUN cd /isodebs && apt-get update && apt-get download -y $REQ_PACKAGES_NVIDIA
-
-# Add the Waggle debian packages
-RUN cd /isodebs && \
-    wget https://github.com/waggle-sensor/beekeeper-registration/releases/download/v1.1.0/waggle-registration_1.1.0.local-47ccaae_all.deb
-RUN cd /isodebs && \
-    wget https://github.com/waggle-sensor/beekeeper-registration/releases/download/v1.1.0/waggle-reverse-tunnel_1.1.0.local-47ccaae_all.deb
-
-# Get docker-compose
-RUN curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-x86_64" -o /tmp/docker-compose
-
-#########################################################
-
-# Copy iso specific tools and final system root file system files
 COPY iso_tools /iso_tools
-COPY ROOTFS/ /ROOTFS
 
-# Copy the downloaded docker-compose into the ROOTFS
-RUN mkdir -p /ROOTFS/usr/local/bin/ && \
-    mv /tmp/docker-compose /ROOTFS/usr/local/bin/docker-compose && \
-    chmod +x /ROOTFS/usr/local/bin/docker-compose
+# update the apt archives in ISO
+RUN mkdir -p /iso/dists/bionic/contrib/binary-amd64
+RUN apt-ftparchive generate /iso_tools/config-deb
+# generate new checksums for new apt repository files
+RUN sed -i '/SHA256:/,$d' /iso/dists/bionic/Release
+RUN apt-ftparchive release /iso/dists/bionic >> /iso/dists/bionic/Release
+# remove the signature check as we have created a new Release
+RUN rm /iso/dists/bionic/Release.gpg
+
+# create new iso md5 checksum file
+RUN cd /iso; md5sum `find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -type f` > md5sum.txt;
+
+# Copy final system root file system files
+COPY ROOTFS/ /ROOTFS
 
 COPY create_image.sh .
