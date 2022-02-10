@@ -99,7 +99,7 @@ racadm config -g cfgServerInfo -o cfgServerFirstBootDevice vCD-DVD
 serveraction powercycle
 ```
 
-*Note*: A script to do this and more can be found at: https://github.com/sagecontinuum/nodes/tree/ssh-beekeeper-upgrade/sage-blade/Blade-BringUp
+*Note*: A script to do this and more can be found at: https://github.com/sagecontinuum/nodes/tree/master/sage-blade/Blade-BringUp
 
 ### 2) Unlock Registration Key
 
