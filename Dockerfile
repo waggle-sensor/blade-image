@@ -21,6 +21,16 @@ ARG UBUNTU_IMG
 RUN curl -L https://old-releases.ubuntu.com/releases/bionic/${UBUNTU_IMG} > /${UBUNTU_IMG} \
     && mkdir -p /iso && bsdtar -C iso/ -xf /${UBUNTU_IMG} && chmod -R +w /iso
 
+# Get the docker apt source as docker is a required package to be downloaded below
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    apt-transport-https=1.6.12ubuntu0.2 \
+    ca-certificates=20210119~18.04.2 \
+    curl=7.58.0-2ubuntu3.16 \
+    gnupg-agent=2.2.4-1ubuntu1.3 \
+    software-properties-common=0.96.24.32.18
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
 ARG REQ_PACKAGES
 RUN mkdir -p /iso/pool/contrib
 RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES

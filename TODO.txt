@@ -68,3 +68,11 @@ disable the apt auto upgrade service timers
 remove items from firstboot script
 - do the overlay as part of the ROOTFS
 - others?
+
+Figure out way to auto-populate the preseed file with the list of packages we want to install (from required_deb_packages)
+
+Figure out how to auto-answer the postfix mail question during install
+
+ensure sshd_config doesnt allow password login
+- actually ensure firewall blocks it completely
+
