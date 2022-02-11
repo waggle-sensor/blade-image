@@ -76,3 +76,4 @@ Figure out how to auto-answer the postfix mail question during install
 ensure sshd_config doesnt allow password login
 - actually ensure firewall blocks it completely
 
+make sure rsyslog is disabled or not installed
