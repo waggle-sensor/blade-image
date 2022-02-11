@@ -45,12 +45,13 @@ d-i apt-setup/universe                                      boolean     true
 d-i apt-setup/backports                                     boolean     true
 
 # package selection
+# recommends comes with items we don't want (i.e. postfix)
+base-installer base-installer/install-recommends            boolean     false
 tasksel tasksel/first                                       multiselect Basic Ubuntu server
-d-i postfix/main_mailer_type                                select      No configuration
 d-i pkgsel/install-recommends                               boolean     false
 d-i pkgsel/include                                          string \
-    bridge-utils e2fsprogs ifupdown iputils-arping nmap openssh-server \
-    openssh-sftp-server python2.7 whois wpasupplicant \
+    bridge-utils build-essential e2fsprogs ifupdown iputils-arping nmap \
+    openssh-server openssh-sftp-server python2.7 whois wpasupplicant \
     apt-transport-https \
     dirmngr \
     gnupg \
