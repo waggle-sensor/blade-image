@@ -44,7 +44,9 @@ d-i apt-setup/restricted                                    boolean     true
 d-i apt-setup/universe                                      boolean     true
 d-i apt-setup/backports                                     boolean     true
 
+# package selection
 tasksel tasksel/first                                       multiselect Basic Ubuntu server
+d-i postfix/main_mailer_type                                select      No configuration
 d-i pkgsel/install-recommends                               boolean     false
 d-i pkgsel/include                                          string \
     bridge-utils e2fsprogs ifupdown iputils-arping nmap openssh-server \
