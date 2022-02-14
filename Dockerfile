@@ -8,12 +8,12 @@
 FROM amd64/ubuntu:bionic-20200921
 
 RUN apt-get update && apt-get install -y \
+    apt-utils \
+    bsdtar \
     curl \
+    dpkg-dev \
     mkisofs \
     wget \
-    bsdtar \
-    dpkg-dev \
-    apt-utils \
     vim
 
 # Download the base Ubuntu ISO (don't use var in curl to use docker cache)
@@ -31,11 +31,21 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
+# Base OS additional packages
 ARG REQ_PACKAGES
 RUN mkdir -p /iso/pool/contrib
 RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES
 
+# NVidia additional packages
+ARG REQ_PACKAGES_NVIDIA
+COPY ROOTFS/etc/apt/trusted.gpg.d/*.asc /etc/apt/trusted.gpg.d/
+COPY ROOTFS/etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/
+RUN mkdir -p /iso/pool/contrib
+RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES_NVIDIA
+
 COPY iso_tools /iso_tools
+# Add additional packages to install list in pressed
+RUN cd /iso_tools; sed "s/{{REQ_PACKAGES}}/${REQ_PACKAGES}/" preseed.seed.base | sed "s/{{REQ_PACKAGES_NVIDIA}}/${REQ_PACKAGES_NVIDIA}/" > preseed.seed
 
 # update the apt archives in ISO
 RUN mkdir -p /iso/dists/bionic/contrib/binary-amd64
