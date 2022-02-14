@@ -43,6 +43,7 @@ NetworkManager lan0 configuration to the 2nd ethernet port (not the uplink one)
 
 configure journalctl, dump rsyslog
 - change the waggle-init from rsyslog to journalctl (remove the rsyslog config) (this may arleady just work)
+- make sure its on the large partition (or /rw maybe if we have alot of space) and leave a bunch of free space
 
 add the new bk registration with the file locked the same way as the current registration
 - needing a manual unlock, by the installer
@@ -77,3 +78,5 @@ ensure sshd_config doesnt allow password login
 - actually ensure firewall blocks it completely
 
 make sure rsyslog is disabled or not installed
+
+update k3s to latest 1.20 version (v1.20.15+k3s1)
