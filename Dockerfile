@@ -45,8 +45,9 @@ RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES_NV
 
 # Waggle packages
 RUN cd /iso/pool/contrib; \
-    wget https://github.com/waggle-sensor/waggle-common-tools/releases/download/v0.4.0/waggle-common-tools_0.4.0_all.deb
-ARG REQ_PACKAGES_WAGGLE=waggle-common-tools
+    wget https://github.com/waggle-sensor/waggle-common-tools/releases/download/v0.4.0/waggle-common-tools_0.4.0_all.deb ; \
+    wget https://github.com/waggle-sensor/waggle-nodeid/releases/download/v1.0.6/waggle-nodeid_1.0.6_all.deb
+ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid"
 
 COPY iso_tools /iso_tools
 # Add additional packages to install list in pressed
