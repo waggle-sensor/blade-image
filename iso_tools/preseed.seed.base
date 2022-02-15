@@ -53,7 +53,8 @@ d-i pkgsel/include                                          string \
     bridge-utils build-essential e2fsprogs ifupdown iputils-arping nmap \
     openssh-server openssh-sftp-server python2.7 whois wpasupplicant \
     {{REQ_PACKAGES}} \
-    {{REQ_PACKAGES_NVIDIA}}
+    {{REQ_PACKAGES_NVIDIA}} \
+    {{REQ_PACKAGES_WAGGLE}}
 d-i pkgsel/upgrade                                          select      none
 d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     false
