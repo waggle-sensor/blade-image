@@ -81,3 +81,6 @@ make sure rsyslog is disabled or not installed
 
 update k3s to latest 1.20 version (v1.20.15+k3s1)
 - this includes the k3s install script (follow the change done in rpi)
+
+change the default (install) hostname from 'changeme' to something else
+- maybe we can start with sb-prereg
