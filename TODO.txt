@@ -24,8 +24,6 @@ add waggle-wan-tunnel service
 add local docker registry service
 - do we need the docker mirrors?
 
-Ensure the root user password is the same as on the NX
-
 Install the waggle k3s shutdown service
 
 figure out how k3s is installed and if we can do it better then having the k3s_install pre-downloaded
@@ -85,3 +83,12 @@ update k3s to latest 1.20 version (v1.20.15+k3s1)
 
 change the default (install) hostname from 'changeme' to something else
 - maybe we can start with sb-prereg
+
+add the waggle user support
+- ability fo the `waggle` user to login and get access to waggle home space
+
+------------------------------------
+DONE
+------------------------------------
+Ensure the root user password is the same as on the NX
+ - actually lets leave this different for security reasons (unchanged)
