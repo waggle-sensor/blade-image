@@ -43,9 +43,16 @@ COPY ROOTFS/etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/
 RUN mkdir -p /iso/pool/contrib
 RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES_NVIDIA
 
+# Waggle packages
+RUN cd /iso/pool/contrib; \
+    wget https://github.com/waggle-sensor/waggle-common-tools/releases/download/v0.4.0/waggle-common-tools_0.4.0_all.deb
+ARG REQ_PACKAGES_WAGGLE=waggle-common-tools
+
 COPY iso_tools /iso_tools
 # Add additional packages to install list in pressed
-RUN cd /iso_tools; sed "s/{{REQ_PACKAGES}}/${REQ_PACKAGES}/" preseed.seed.base | sed "s/{{REQ_PACKAGES_NVIDIA}}/${REQ_PACKAGES_NVIDIA}/" > preseed.seed
+RUN cd /iso_tools; sed "s/{{REQ_PACKAGES}}/${REQ_PACKAGES}/" preseed.seed.base \
+    | sed "s/{{REQ_PACKAGES_NVIDIA}}/${REQ_PACKAGES_NVIDIA}/" \
+    | sed "s/{{REQ_PACKAGES_WAGGLE}}/${REQ_PACKAGES_WAGGLE}/" > preseed.seed
 
 # update the apt archives in ISO
 RUN mkdir -p /iso/dists/bionic/contrib/binary-amd64
