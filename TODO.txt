@@ -87,6 +87,10 @@ change the default (install) hostname from 'changeme' to something else
 add the waggle user support
 - ability fo the `waggle` user to login and get access to waggle home space
 
+update waggle-internet-share to use config.ini for interface names
+
+update waggle-firewall to use config.ini for interface names
+
 ------------------------------------
 DONE
 ------------------------------------
