@@ -59,9 +59,11 @@ ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid waggle-node-hostname 
 
 COPY iso_tools /iso_tools
 # Add additional packages to install list in pressed
-RUN cd /iso_tools; sed "s/{{REQ_PACKAGES}}/${REQ_PACKAGES}/" preseed.seed.base \
-    | sed "s/{{REQ_PACKAGES_NVIDIA}}/${REQ_PACKAGES_NVIDIA}/" \
-    | sed "s/{{REQ_PACKAGES_WAGGLE}}/${REQ_PACKAGES_WAGGLE}/" > preseed.seed
+ARG PARTITION_LAYOUT
+RUN cd /iso_tools; sed "s|{{REQ_PACKAGES}}|${REQ_PACKAGES}|" preseed.seed.base \
+    | sed "s|{{REQ_PACKAGES_NVIDIA}}|${REQ_PACKAGES_NVIDIA}|" \
+    | sed "s|{{REQ_PACKAGES_WAGGLE}}|${REQ_PACKAGES_WAGGLE}|" \
+    | sed "s|{{PARTITION_LAYOUT}}|${PARTITION_LAYOUT}|" > preseed.seed
 
 # update the apt archives in ISO
 RUN mkdir -p /iso/dists/bionic/contrib/binary-amd64
@@ -77,5 +79,15 @@ RUN cd /iso; md5sum `find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -t
 
 # Copy final system root file system files
 COPY ROOTFS/ /ROOTFS
+
+# Make custom file system changes for VM mode
+ARG VM_MODE
+RUN if [ -n "$VM_MODE" ]; then \
+    mv /ROOTFS/etc/waggle/config-vm.ini /ROOTFS/etc/waggle/config.ini ; \
+    mv /ROOTFS/etc/waggle/firewall/rules-vm /ROOTFS/etc/waggle/firewall/rules ; \
+    else \
+    rm /ROOTFS/etc/waggle/config-vm.ini ; \
+    rm /ROOTFS/etc/waggle/firewall/rules-vm ; \
+    fi
 
 COPY create_image.sh .

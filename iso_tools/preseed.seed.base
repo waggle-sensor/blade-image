@@ -74,31 +74,7 @@ d-i partman-auto/method string regular
 d-i partman-auto/choose_recipe select gpt-boot-root-swap
 # Swap: 16GB, / 16GB, sys-data 256GB, plugin-data 256GB (min; 100% of rest)
 d-i partman-auto/expert_recipe string            \
-    gpt-boot-root-swap ::                        \
-        200 200 200 fat32                        \
-            $primary{ }                          \
-            method{ efi } format{ } .            \
-        16384 16384 16384 linux-swap             \
-            $primary{ }                          \
-            method{ swap } format{ } .           \
-        16384 16384 16384 ext4                   \
-            $primary{ } $bootable{ }             \
-            method{ format } format{ }           \
-            use_filesystem{ } filesystem{ ext4 } \
-            label { root }                       \
-            mountpoint{ / } .                    \
-        262144 262144 262144 ext4                \
-            $primary{ }                          \
-            method{ format } format{ }           \
-            use_filesystem{ } filesystem{ ext4 } \
-            label { system-data }                \
-            mountpoint{ /media/system-data } .   \
-        262144 262244 -1 ext4                    \
-            $primary{ }                          \
-            method{ format } format{ }           \
-            use_filesystem{ } filesystem{ ext4 } \
-            label { plugin-data }                \
-            mountpoint{ /media/plugin-data } .
+    {{PARTITION_LAYOUT}}
 
 d-i partman-partitioning/confirm_write_new_label            boolean     true
 d-i partman/choose_partition                                select      finish
