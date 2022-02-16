@@ -1,0 +1,22 @@
+    gpt-boot-root-swap ::                        \\\
+        200 200 200 fat32                        \\\
+            $primary{ }                          \\\
+            method{ efi } format{ } .            \\\
+        10240 10240 10240 ext4                   \\\
+            $primary{ } $bootable{ }             \\\
+            method{ format } format{ }           \\\
+            use_filesystem{ } filesystem{ ext4 } \\\
+            label { root }                       \\\
+            mountpoint{ / } .                    \\\
+        5120 5120 5120 ext4                      \\\
+            $primary{ }                          \\\
+            method{ format } format{ }           \\\
+            use_filesystem{ } filesystem{ ext4 } \\\
+            label { system-data }                \\\
+            mountpoint{ /media/system-data } .   \\\
+        5120 5121 -1 ext4                        \\\
+            $primary{ }                          \\\
+            method{ format } format{ }           \\\
+            use_filesystem{ } filesystem{ ext4 } \\\
+            label { plugin-data }                \\\
+            mountpoint{ /media/plugin-data } .

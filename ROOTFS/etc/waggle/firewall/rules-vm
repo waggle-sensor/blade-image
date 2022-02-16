@@ -1,0 +1,2 @@
+INPUT -i enp0s3 -m conntrack ! --ctstate RELATED,ESTABLISHED -j DROP
+FORWARD -i enp0s3 -m conntrack ! --ctstate RELATED,ESTABLISHED -j DROP

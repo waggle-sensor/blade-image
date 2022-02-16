@@ -2,7 +2,7 @@
 
 print_help() {
   echo """
-usage: build.sh [-d]
+usage: build.sh [-d] [-f] [-o] [-v]
 
 Create a modified Ubuntu ISO from a base Ubuntu ISO that contains all
 neccessary packages and Waggle software tools for installation on a Dell blade.
@@ -10,6 +10,7 @@ neccessary packages and Waggle software tools for installation on a Dell blade.
   -o : (optional) output filename (i.e. custom_name) (default: dell)
   -d : don't build the image and enter debug mode within the Docker build environment.
   -f : force the build to proceed (debugging only) without checking for tagged commit
+  -v : build the image for a test virtual machine
   -? : print this help menu
 """
 }
@@ -20,7 +21,9 @@ BUILDNAME="dell"
 UBUNTU_IMG="ubuntu-18.04.5-server-amd64.iso"
 FORCE=
 TTY=
-while getopts "o:fd?" opt; do
+PARTITION_LAYOUT=$(cat ./iso_tools/partition_layout_dell)
+VM_MODE=
+while getopts "o:fdv?" opt; do
   case $opt in
     o) OUTPUT_NAME=$OPTARG
       ;;
@@ -33,6 +36,11 @@ while getopts "o:fd?" opt; do
     f) # force build
       echo "** Force build: ignore tag depth check **"
       FORCE=1
+      ;;
+    v) # vm mode
+      echo "** VM mode: build for virtual machine **"
+      PARTITION_LAYOUT=$(cat ./iso_tools/partition_layout_vm)
+      VM_MODE=1
       ;;
     ?|*)
       print_help
@@ -67,7 +75,9 @@ REQ_PACKAGES_NVIDIA=$(sed -e '/^#/d' required_deb_nvidia_packages.txt | tr '\n' 
 docker build -f Dockerfile -t blade_image_build \
     --build-arg UBUNTU_IMG="${UBUNTU_IMG}" \
     --build-arg REQ_PACKAGES="${REQ_PACKAGES}" \
-    --build-arg REQ_PACKAGES_NVIDIA="${REQ_PACKAGES_NVIDIA}" .
+    --build-arg REQ_PACKAGES_NVIDIA="${REQ_PACKAGES_NVIDIA}" \
+    --build-arg PARTITION_LAYOUT="${PARTITION_LAYOUT}" \
+    --build-arg VM_MODE="${VM_MODE}" .
 docker run $TTY --rm --privileged \
     -v ${PWD}:/output \
     --env UBUNTU_IMG=${UBUNTU_IMG} \
