@@ -1,25 +1,7 @@
 TODO
 
-scan all the "extra packages" to be sure we have the latest version
-- figure out how we scanned and created that list before and re-do it
-- look how i did it for the nvidia packages as an example
-- create a vm with the same .ISO and see what the delta in packages would be... should be the same?
- - look at everything that we already had in our list of things to install and compare against what we install in the
-   WSN node and see what we are missing, or can remove.
-   it will probably be helpful to identify which of the packages is a dependency of others. as the deb list is all dependencies
-
-refresh the nvidia package list too
- - when doing this use the instructions from the README that say to grep for Inst
- - apt-get install curl --dry-run --no-upgrade cuda=11.0.3-1 nvidia-docker2=2.2.0-1 | grep Inst
-
-figure out the additional debian packages we have added to the NX image that also need to be added
-- bluez ?
-
 add waggle-firewall service
 - ensure runs before dnsmasq, k3s, docker, others as in WSN
-install all other waggle specific packages that make sense
-
-add waggle-wan-tunnel service
 
 add local docker registry service
 - do we need the docker mirrors?
@@ -43,18 +25,14 @@ configure journalctl, dump rsyslog
 - change the waggle-init from rsyslog to journalctl (remove the rsyslog config) (this may arleady just work)
 - make sure its on the large partition (or /rw maybe if we have alot of space) and leave a bunch of free space
 
-add the new bk registration with the file locked the same way as the current registration
-- needing a manual unlock, by the installer
-
-update authorized keys to match what is WSN
-
 setup the apt sources to match that of the WSN
 - evaluate if we need to override the apt sources.list file
 
 update the entire readme
-- specifically the unlock registartion part
+- specifically the unlock registration part
 - the iso file name and version break down (if its changed)
 - the network section (restore and static IP)
+- and how the required_deb package list is updated
 
 validate NVidia GPU support for running containers
 - do we need that k3s config change to use the NVidia runtime
@@ -68,10 +46,6 @@ remove items from firstboot script
 - do the overlay as part of the ROOTFS
 - others?
 
-Figure out way to auto-populate the preseed file with the list of packages we want to install (from required_deb_packages)
-
-Figure out how to auto-answer the postfix mail question during install
-
 ensure sshd_config doesnt allow password login
 - actually ensure firewall blocks it completely
 - other nx sshd settings
@@ -81,15 +55,10 @@ make sure rsyslog is disabled or not installed
 update k3s to latest 1.20 version (v1.20.15+k3s1)
 - this includes the k3s install script (follow the change done in rpi)
 
-change the default (install) hostname from 'changeme' to something else
-- maybe we can start with sb-prereg
-
 add the waggle user support
 - ability fo the `waggle` user to login and get access to waggle home space
 
-update waggle-internet-share to use config.ini for interface names
-
-update waggle-firewall to use config.ini for interface names
+figure out why the "set to +w" for root is not working for all files we copy in pressed
 
 ------------------------------------
 DONE
