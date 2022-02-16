@@ -52,8 +52,9 @@ RUN cd /iso/pool/contrib; \
     wget https://github.com/waggle-sensor/node-registration-service/releases/download/v1.2.3/waggle-reverse-tunnel_1.2.2.local-0575b18_all.deb ; \
     wget https://github.com/waggle-sensor/node-registration-service/releases/download/v2.2.1/waggle-bk-registration_2.2.1_all.deb ; \
     wget https://github.com/waggle-sensor/node-reverse-tunnel-service/releases/download/v2.3.1/waggle-bk-reverse-tunnel_2.3.1_all.deb ; \
-    wget https://github.com/waggle-sensor/waggle-wan-tunnel/releases/download/v0.4.0/waggle-wan-tunnel_0.4.0_all.deb
-ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid waggle-node-hostname waggle-registration waggle-reverse-tunnel waggle-bk-registration waggle-bk-reverse-tunnel waggle-wan-tunnel"
+    wget https://github.com/waggle-sensor/waggle-wan-tunnel/releases/download/v0.4.0/waggle-wan-tunnel_0.4.0_all.deb ; \
+    wget https://github.com/waggle-sensor/waggle-internet-share/releases/download/v1.4.0/waggle-internet-share_1.4.0_all.deb
+ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid waggle-node-hostname waggle-registration waggle-reverse-tunnel waggle-bk-registration waggle-bk-reverse-tunnel waggle-wan-tunnel waggle-internet-share"
 
 COPY iso_tools /iso_tools
 # Add additional packages to install list in pressed
