@@ -91,8 +91,8 @@ d-i partman-auto/expert_recipe string            \
             $primary{ }                          \
             method{ format } format{ }           \
             use_filesystem{ } filesystem{ ext4 } \
-            label { sys-data }                   \
-            mountpoint{ /media/sys-data } .      \
+            label { system-data }                \
+            mountpoint{ /media/system-data } .   \
         262144 262244 -1 ext4                    \
             $primary{ }                          \
             method{ format } format{ }           \
