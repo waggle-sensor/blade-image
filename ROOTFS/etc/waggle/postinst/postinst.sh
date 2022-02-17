@@ -13,5 +13,6 @@ apt-get autoremove -y
 
 # update ssh conf
 echo "Configure SSHD Config"
-echo "ListenAddress 127.0.0.1" >> /etc/ssh/sshd_config
 echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
+echo "PermitRootLogin without-password" >> /etc/ssh/sshd_config
+echo "ListenAddress 127.0.0.1" >> /etc/ssh/sshd_config
