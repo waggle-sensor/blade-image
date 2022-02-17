@@ -14,6 +14,11 @@ apt-get purge -y \
     unattended-upgrades
 apt-get autoremove -y
 
+# Remove partitions from fstab that we don't want to automount
+echo "Removing efi and media/system-data from /etc/fstab"
+sed -i '/efi/d' /etc/fstab
+sed -i '/\/media\/system-data/d' /etc/fstab
+
 # update ssh conf
 echo "Configure SSHD Config"
 echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
