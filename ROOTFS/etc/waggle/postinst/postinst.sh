@@ -74,6 +74,11 @@ systemctl disable apt-daily-upgrade.timer
 systemctl enable waggle-k3s-shutdown
 
 # set proper permissions for files
+chmod 700 /root/.ssh
+chmod 600 /root/.ssh/*
 chmod 644 /etc/ssh/ssh_known_hosts
+chmod 600 /etc/waggle/id_rsa_waggle_registration.enc
+chmod 600 /etc/waggle/sage_registration.enc
+chmod 600 /etc/waggle/sage_registration-cert.pub
 chmod 644 /etc/waggle/sage_registration.pub
 chmod 600 /etc/NetworkManager/system-connections/*
