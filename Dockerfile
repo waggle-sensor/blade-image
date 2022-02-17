@@ -94,10 +94,8 @@ RUN mkdir -p /ROOTFS/usr/local/bin/ ; \
 ARG VM_MODE
 RUN if [ -n "$VM_MODE" ]; then \
     mv /ROOTFS/etc/waggle/config-vm.ini /ROOTFS/etc/waggle/config.ini ; \
-    mv /ROOTFS/etc/waggle/firewall/rules-vm /ROOTFS/etc/waggle/firewall/rules ; \
     else \
     rm /ROOTFS/etc/waggle/config-vm.ini ; \
-    rm /ROOTFS/etc/waggle/firewall/rules-vm ; \
     fi
 
 COPY create_image.sh .

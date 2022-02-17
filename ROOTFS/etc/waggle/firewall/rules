@@ -1,2 +1,2 @@
-INPUT -i eno1 -m conntrack ! --ctstate RELATED,ESTABLISHED -j DROP
-FORWARD -i eno1 -m conntrack ! --ctstate RELATED,ESTABLISHED -j DROP
+INPUT -i wan0 -m conntrack ! --ctstate RELATED,ESTABLISHED -j DROP
+FORWARD -i wan0 -m conntrack ! --ctstate RELATED,ESTABLISHED -j DROP
