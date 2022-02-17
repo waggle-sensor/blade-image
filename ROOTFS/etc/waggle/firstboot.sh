@@ -23,13 +23,6 @@ sed -i '/\/media\/sys-data/d' /etc/fstab
 log "Remake GRUB to enable serial console output"
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# configure docker plugin-data partition
-log "Move Docker storage to external media"
-systemctl stop docker
-rm -rf /var/lib/docker
-mkdir -p /media/plugin-data/docker
-ln -s /media/plugin-data/docker /var/lib/docker
-
 #configure k3s plugin-data partition
 log "Move k3s storage to external media"
 mkdir -p /media/plugin-data/k3s/etc/rancher
