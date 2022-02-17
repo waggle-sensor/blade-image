@@ -19,10 +19,6 @@ exec 1> >(logger -s -t "$SYSLOGTAG") 2>&1
 log "Remake GRUB to enable serial console output"
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# configure root overlay
-log "Enable overlayroot"
-sed -i 's|overlayroot=""|overlayroot="device:dev=/dev/sda4,timeout=180,recurse=0,swap=1"|' /etc/overlayroot.conf
-
 log "Disable first boot script"
 mv /etc/waggle/firstboot.sh /etc/waggle/firstboot.sh.$(date '+%Y%m%d-%H%M%S').bck
 
