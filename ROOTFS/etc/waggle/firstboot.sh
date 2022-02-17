@@ -16,10 +16,6 @@ log_warn() {
 # TODO: remove this syslogger stuff, hope for journalctl to work
 exec 1> >(logger -s -t "$SYSLOGTAG") 2>&1
 
-log "Removing efi and media/sys-data from /etc/fstab"
-sed -i '/efi/d' /etc/fstab
-sed -i '/\/media\/sys-data/d' /etc/fstab
-
 log "Remake GRUB to enable serial console output"
 grub-mkconfig -o /boot/grub/grub.cfg
 
