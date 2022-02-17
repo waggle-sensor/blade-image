@@ -69,3 +69,6 @@ chmod +x /etc/update-motd.d/*waggle*
 echo "Disable apt-update timers"
 systemctl disable apt-daily.timer
 systemctl disable apt-daily-upgrade.timer
+
+# enable the graceful k3s shutdown service
+systemctl enable waggle-k3s-shutdown
