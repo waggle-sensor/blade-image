@@ -5,20 +5,15 @@ IN PROGRESS: add waggle-firewall service
  -- TEST: need to test above (service start order)
  -- TEST: need to test that firewall is working as we want
 
-add local docker registry service
-- do we need the docker mirrors?
+IN PROGRESS: validate NVidia GPU support for running containers
+- do we need that k3s config change to use the NVidia runtime
+- docker test: passed
+- TEST: k3s test: tbd
 
 IN PROGRESS: setup k3s with same K3S_CLUSTER_SECRET=4tX0DUZ0uQknRtVUAKjt as WSN just in case we ever have a agents
 - k3s service changes (this would need to be a systemd override file, which means we need to be able to create "end filesystem" )
 - TEST: need to test this with a RPi
  -- cluster secret is in-place, just need to do the testing
-
-NetworkManager lan0 configuration to the 2nd ethernet port (not the uplink one)
-- try to switch the lan0 configuration to be within NetworkManager system-connections just like WSN
-- why do we have a setting in /etc/network for static IPs ?
-- IT IS BY DESIGN (see readme) THAT NETWORK IS DISABLED BY DEFAULT, we should still have the network system-connections in ROOTFS for when eventually
-  the network is unlocked
-- investigate how to do static IPs with the system-connections (in replacement of the stuff outlined in README)
 
 IN PROGRESS: configure journalctl
 - DONE: change the waggle-init from rsyslog to journalctl (remove the rsyslog config) (this may arleady just work)
@@ -26,6 +21,10 @@ IN PROGRESS: configure journalctl
 - before: Feb 17 15:07:24 sb-prereg systemd-journald[423]: System journal (/var/log/journal/d0a07a21b7c049d9916a1869da31d7c7) is 8.0M, max 474.2M, 466.2M free.
 - after: Feb 17 17:32:04 sb-prereg systemd-journald[424]: System journal (/var/log/journal/9d48dc14ff47463fbdf39a1806edb756) is 8.0M, max 3.6G, 3.6G free.
  -- TEST: this is with a 5GB rw partition.  so we can check later on a real system
+
+IN PROGRESS: local 10.31.81.1 DNS resolver
+- setting up the systemd-resolver or whatever so that all agents use this DNS resolver
+- TEST: i think this works and is done
 
 setup the apt sources to match that of the WSN
 - evaluate if we need to override the apt sources.list file
@@ -36,11 +35,6 @@ update the entire readme
 - the network section (restore and static IP)
 - and how the required_deb package list is updated
 
-IN PROGRESS: validate NVidia GPU support for running containers
-- do we need that k3s config change to use the NVidia runtime
-- docker test: passed
-- TEST: k3s test: tbd
-
 ensure sshd_config doesnt allow password login
 - actually ensure firewall blocks it completely
 - other nx sshd settings
@@ -50,41 +44,22 @@ add the waggle user support
 
 figure out why the "set to +w" for root is not working for all files we copy in pressed
 
-dnsmasq and other services override to ensure proper order
-
-IN PROGRESS: we DONT want to enable k3s right away, as it will create the node `sb-prereg`
- - we need to wait until after hostname has completed.  so I think we can gate this some service items
-   in the k3s override to be sure k3s doesnt start until we are ready for it to start
-   -- we test to be sure the hostname doesnt equal 'prereg' and then it wont start until thats correct
-
 nodeid "condition failed" in service on first boot (prereg) after install
 - says the condition failed, but yet it ran to 
-
-IN PROGRESS: clear the machine-id
-- flash 1: d0a07a21b7c049d9916a1869da31d7c7 (/var/lib/dbus/machine-id), need to see if this is changing or not
- - real dell had: 9f6800fe80f2453fa72c29de1ede1d38
--- may  not need this as we are flashing from an ISO that should probably generate a new machine-id per machine
 
 add wifi support for the default wifi card and default wifi (waggle) profile for auto-connect
 - i don't know if we need to add driver support, etc.
 - disable power savings modprobe ?
 - TEST: connect wifi to a Dell blade and see what happens
 
-local 10.31.81.1 DNS resolver
-- setting up the systemd-resolver or whatever so that all agents use this DNS resolver
+IN PROGRESS: local docker registries for pulling images for downstream agents (i.e. rpi)
+- add local docker registry service
+- and the mirrors
 
 NEXT
-- test and document all the changes
--- the lan0, wan0 change
---- test that firewall works, test that internet forwarder picks up change
---- be sure not enabled until after the NetworkManager "stop" conf is removed
---- actions for hard-coded IP, set in NetworkManager ideally
 - dnsmasq and other service with their override
 - rpi /media/rpi, pxe booting and nfs support
  -- need the ssh keys and .ssh config to talk to the RPi (and / or agent)
-- k3s pre-run to enable gpu support
-- k3s restrict to start after hostname
-
 
 ------------------------------------
 DONE
@@ -113,3 +88,24 @@ make sure rsyslog is disabled or not installed
 Install the waggle k3s shutdown service
 - ensure the log is gone on shutdown : Failed unmounting /media/plugin-data
 -- the above log was not gone but the k3s is shutdown and the system reboots/shutsdown fast
+
+clear the machine-id
+- flash 1: d0a07a21b7c049d9916a1869da31d7c7 (/var/lib/dbus/machine-id), need to see if this is changing or not
+ - real dell had: 9f6800fe80f2453fa72c29de1ede1d38
+- flash 2: 2fe0e... so its different: good: done
+-- may not need this as we are flashing from an ISO that should probably generate a new machine-id per machine
+
+we DONT want to enable k3s right away, as it will create the node `sb-prereg`
+ - we need to wait until after hostname has completed.  so I think we can gate this some service items
+   in the k3s override to be sure k3s doesnt start until we are ready for it to start
+   -- we test to be sure the hostname doesnt equal 'prereg' and then it wont start until thats correct
+- we DONT need to do anything, as it will use the node-id and the system name from config. it all works: done
+
+dnsmasq and other services override to ensure proper order
+
+NetworkManager lan0 configuration to the 2nd ethernet port (not the uplink one)
+- try to switch the lan0 configuration to be within NetworkManager system-connections just like WSN
+- why do we have a setting in /etc/network for static IPs ?
+- IT IS BY DESIGN (see readme) THAT NETWORK IS DISABLED BY DEFAULT, we should still have the network system-connections in ROOTFS for when eventually
+  the network is unlocked
+- investigate how to do static IPs with the system-connections (in replacement of the stuff outlined in README)
