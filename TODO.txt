@@ -21,9 +21,9 @@ NetworkManager lan0 configuration to the 2nd ethernet port (not the uplink one)
   the network is unlocked
 - investigate how to do static IPs with the system-connections (in replacement of the stuff outlined in README)
 
-configure journalctl, dump rsyslog
+configure journalctl
 - change the waggle-init from rsyslog to journalctl (remove the rsyslog config) (this may arleady just work)
-- make sure its on the large partition (or /rw maybe if we have alot of space) and leave a bunch of free space
+- make sure it is on the overlay rw partition (just like the NX)
 
 setup the apt sources to match that of the WSN
 - evaluate if we need to override the apt sources.list file
@@ -50,7 +50,7 @@ ensure sshd_config doesnt allow password login
 - actually ensure firewall blocks it completely
 - other nx sshd settings
 
-make sure rsyslog is disabled or not installed
+IN PROGRESS: make sure rsyslog is disabled or not installed
 
 update k3s to latest 1.20 version (v1.20.15+k3s1)
 - this includes the k3s install script (follow the change done in rpi)
@@ -59,6 +59,11 @@ add the waggle user support
 - ability fo the `waggle` user to login and get access to waggle home space
 
 figure out why the "set to +w" for root is not working for all files we copy in pressed
+
+dnsmasq and other services override to ensure proper order
+
+IN PROGRESS: configure the overlayroot to be setup on first boot already
+- and/or update the firstboot.sh script
 
 ------------------------------------
 DONE
