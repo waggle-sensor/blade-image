@@ -16,3 +16,10 @@ echo "Configure SSHD Config"
 echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
 echo "PermitRootLogin without-password" >> /etc/ssh/sshd_config
 echo "ListenAddress 127.0.0.1" >> /etc/ssh/sshd_config
+
+# configure docker plugin-data partition
+echo "Move Docker storage to external media"
+systemctl stop docker
+rm -rf /var/lib/docker
+mkdir -p /media/plugin-data/docker
+ln -s /media/plugin-data/docker /var/lib/docker
