@@ -76,3 +76,4 @@ systemctl enable waggle-k3s-shutdown
 # set proper permissions for files
 chmod 644 /etc/ssh/ssh_known_hosts
 chmod 644 /etc/waggle/sage_registration.pub
+chmod 600 /etc/NetworkManager/system-connections/*
