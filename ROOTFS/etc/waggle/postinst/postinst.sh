@@ -49,6 +49,10 @@ ln -s ${MEDIA_PATH}/k3s/kubelet/ /var/lib/kubelet
 ln -s ${MEDIA_PATH}/k3s/rancher/ /var/lib/rancher
 INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true K3S_CLUSTER_SECRET=4tX0DUZ0uQknRtVUAKjt /etc/waggle/k3s_config/k3s_install.sh
 
+# enable the docker registry mirror services
+mkdir -p ${MEDIA_PATH}/docker_registry/local
+systemctl enable waggle-registry-local.service
+
 # sync the disk and unmount the media partition
 echo "Un-mount ${MEDIA_PARTITION}"
 sync
@@ -82,3 +86,12 @@ chmod 600 /etc/waggle/sage_registration.enc
 chmod 600 /etc/waggle/sage_registration-cert.pub
 chmod 644 /etc/waggle/sage_registration.pub
 chmod 600 /etc/NetworkManager/system-connections/*
+chmod 644 /etc/waggle/docker/certs/domain.crt
+chmod 600 /etc/waggle/docker/certs/domain.key
+
+## Configure the docker local registry certification
+mkdir -p /etc/docker/certs.d/10.31.81.1\:5000/
+cp /etc/waggle/docker/certs/domain.crt /etc/docker/certs.d/10.31.81.1\:5000/
+mkdir -p /usr/local/share/ca-certificates
+cp /etc/waggle/docker/certs/domain.crt /usr/local/share/ca-certificates/docker.crt
+update-ca-certificates
