@@ -2,6 +2,9 @@
         200 200 200 fat32                        \\\
             $primary{ }                          \\\
             method{ efi } format{ } .            \\\
+        1024 1024 1024 linux-swap                \\\
+            $primary{ }                          \\\
+            method{ swap } format{ } .           \\\
         10240 10240 10240 ext4                   \\\
             $primary{ } $bootable{ }             \\\
             method{ format } format{ }           \\\
