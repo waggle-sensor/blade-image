@@ -15,12 +15,6 @@ echo "Additional Debs: $(ls -la /iso/pool/contrib/* | wc -l) [$(du -hs /iso/pool
 mkdir -p /ROOTFS/etc
 echo $PROJ_VERSION > /ROOTFS/etc/waggle_version_os
 
-echo "Downloading & Installing K3S"
-mkdir -p /ROOTFS/usr/local/bin/
-wget https://github.com/rancher/k3s/releases/download/v1.20.15+k3s1/k3s
-chmod +x k3s
-cp k3s /ROOTFS/usr/local/bin/
-
 # copy all the Waggle specifics for the end file-system to the ISO
 echo "Copy SAGE rootfs to ISO"
 cp -r /ROOTFS /iso/
