@@ -16,9 +16,6 @@ log_warn() {
 # TODO: remove this syslogger stuff, hope for journalctl to work
 exec 1> >(logger -s -t "$SYSLOGTAG") 2>&1
 
-log "Remake GRUB to enable serial console output"
-grub-mkconfig -o /boot/grub/grub.cfg
-
 log "Disable first boot script"
 mv /etc/waggle/firstboot.sh /etc/waggle/firstboot.sh.$(date '+%Y%m%d-%H%M%S').bck
 

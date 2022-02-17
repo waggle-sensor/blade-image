@@ -48,3 +48,6 @@ ln -s ${MEDIA_PATH}/k3s/etc/rancher/ /etc/rancher
 ln -s ${MEDIA_PATH}/k3s/kubelet/ /var/lib/kubelet
 ln -s ${MEDIA_PATH}/k3s/rancher/ /var/lib/rancher
 INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true /etc/waggle/k3s_config/k3s_install.sh
+
+echo "Remake GRUB to enable serial console output"
+grub-mkconfig -o /boot/grub/grub.cfg
