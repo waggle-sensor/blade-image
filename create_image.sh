@@ -17,7 +17,7 @@ echo $VERSION > /ROOTFS/etc/waggle_version_os
 
 echo "Downloading & Installing K3S"
 mkdir -p /ROOTFS/usr/local/bin/
-wget https://github.com/rancher/k3s/releases/download/v1.20.0+k3s2/k3s
+wget https://github.com/rancher/k3s/releases/download/v1.20.15+k3s1/k3s
 chmod +x k3s
 cp k3s /ROOTFS/usr/local/bin/
 
