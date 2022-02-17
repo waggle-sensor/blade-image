@@ -47,7 +47,7 @@ mkdir -p ${MEDIA_PATH}/k3s/rancher
 ln -s ${MEDIA_PATH}/k3s/etc/rancher/ /etc/rancher
 ln -s ${MEDIA_PATH}/k3s/kubelet/ /var/lib/kubelet
 ln -s ${MEDIA_PATH}/k3s/rancher/ /var/lib/rancher
-INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true /etc/waggle/k3s_config/k3s_install.sh
+INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true K3S_CLUSTER_SECRET=4tX0DUZ0uQknRtVUAKjt /etc/waggle/k3s_config/k3s_install.sh
 
 # sync the disk and unmount the media partition
 echo "Un-mount ${MEDIA_PARTITION}"
