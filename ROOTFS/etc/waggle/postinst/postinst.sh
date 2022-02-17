@@ -64,3 +64,8 @@ sed -i 's/^ENABLED=1/ENABLED=0/' /etc/default/motd-news
 systemctl disable motd-news.service
 systemctl disable motd-news.timer
 chmod +x /etc/update-motd.d/*waggle*
+
+# disable apt-update timers
+echo "Disable apt-update timers"
+systemctl disable apt-daily.timer
+systemctl disable apt-daily-upgrade.timer
