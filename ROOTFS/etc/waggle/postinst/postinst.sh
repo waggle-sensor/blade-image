@@ -50,6 +50,10 @@ ln -s ${MEDIA_PATH}/k3s/rancher/ /var/lib/rancher
 INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true K3S_CLUSTER_SECRET=4tX0DUZ0uQknRtVUAKjt /etc/waggle/k3s_config/k3s_install.sh
 
 # enable the docker registry mirror services
+mkdir -p ${MEDIA_PATH}/docker_registry/mirrors/docker
+systemctl enable waggle-registry-mirror-docker.service
+mkdir -p ${MEDIA_PATH}/docker_registry/mirrors/sage
+systemctl enable waggle-registry-mirror-sage.service
 mkdir -p ${MEDIA_PATH}/docker_registry/local
 systemctl enable waggle-registry-local.service
 
@@ -95,3 +99,7 @@ cp /etc/waggle/docker/certs/domain.crt /etc/docker/certs.d/10.31.81.1\:5000/
 mkdir -p /usr/local/share/ca-certificates
 cp /etc/waggle/docker/certs/domain.crt /usr/local/share/ca-certificates/docker.crt
 update-ca-certificates
+
+# Add docker registry mirror to Docker deamon (original file )
+jq '. += {"registry-mirrors": [ "http://10.31.81.1:5001" ]}' /etc/docker/daemon.json > /tmp/daemon.json
+mv /tmp/daemon.json /etc/docker/daemon.json
