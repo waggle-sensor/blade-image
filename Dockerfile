@@ -80,6 +80,16 @@ RUN cd /iso; md5sum `find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -t
 # Copy final system root file system files
 COPY ROOTFS/ /ROOTFS
 
+# Add k3s binary and install script for a later install
+RUN mkdir -p /ROOTFS/etc/waggle/k3s_config; \
+    cd /ROOTFS/etc/waggle/k3s_config; \
+    curl -sfL https://get.k3s.io > k3s_install.sh ; \
+    chmod +x k3s_install.sh
+RUN mkdir -p /ROOTFS/usr/local/bin/ ; \
+    cd /ROOTFS/usr/local/bin/ ; \
+    wget https://github.com/rancher/k3s/releases/download/v1.20.15+k3s1/k3s ; \
+    chmod +x k3s
+
 # Make custom file system changes for VM mode
 ARG VM_MODE
 RUN if [ -n "$VM_MODE" ]; then \
