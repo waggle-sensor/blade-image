@@ -7,6 +7,9 @@ BEEHIVE_CHECKSUM=5fd9b3233c94e6b17f67120222c1e765530cb149
 BEEKEEPER_KEY=$(waggle-get-config -s registration -k key)
 BEEKEEPER_KEY_ENC=${BEEKEEPER_KEY}.enc
 BEEKEEPER_CHECKSUM=$(waggle-get-config -s registration -k keychecksum)
+AGENT_KEY=/root/.ssh/ecdsa-agents
+AGENT_KEY_ENC=${AGENT_KEY}.enc
+AGENT_CHECKSUM=fe3897e567992d4882feedd6e17546f0b1c5419f
 
 function verify_key() {
     local key=${1}
@@ -50,8 +53,13 @@ function unlock_key() {
 # Beehive key
 echo "<< Beehive Key Unlock >>"
 unlock_key "Beehive" ${BEEHIVE_KEY} ${BEEHIVE_KEY_ENC} ${BEEHIVE_CHECKSUM}
-echo
 
 # Beekeeper key
+echo
 echo "<< Beekeeper Key Unlock >>"
 unlock_key "Beekeeper" ${BEEKEEPER_KEY} ${BEEKEEPER_KEY_ENC} ${BEEKEEPER_CHECKSUM}
+
+# Agent key
+echo
+echo "<< Node Agent Key Unlock >>"
+unlock_key "Node Agent" ${AGENT_KEY} ${AGENT_KEY_ENC} ${AGENT_CHECKSUM}
