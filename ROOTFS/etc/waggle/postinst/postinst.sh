@@ -56,3 +56,11 @@ umount ${MEDIA_PARTITION}
 
 echo "Remake GRUB to enable serial console output"
 grub-mkconfig -o /boot/grub/grub.cfg
+
+# disable all other MOTD and enable the WaggleOS MOTD
+echo "Enable the WaggleOS MOTD"
+chmod -x /etc/update-motd.d/*
+sed -i 's/^ENABLED=1/ENABLED=0/' /etc/default/motd-news
+systemctl disable motd-news.service
+systemctl disable motd-news.timer
+chmod +x /etc/update-motd.d/*waggle*
