@@ -40,11 +40,6 @@ ln -s /media/plugin-data/k3s/kubelet/ /var/lib/kubelet
 ln -s /media/plugin-data/k3s/rancher/ /var/lib/rancher
 INSTALL_K3S_SKIP_DOWNLOAD=true /etc/waggle/k3s_install.sh
 
-# update ssh conf
-log "Configure SSHD Config"
-echo "ListenAddress 127.0.0.1" >> /etc/ssh/sshd_config
-echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
-
 # configure root overlay
 log "Enable overlayroot"
 sed -i 's|overlayroot=""|overlayroot="device:dev=/dev/sda4,timeout=180,recurse=0,swap=1"|' /etc/overlayroot.conf
