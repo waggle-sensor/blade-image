@@ -1,0 +1,11 @@
+## WAN configuration
+# Dell blade
+KERNEL=="eno1", NAME="wan0"
+# VM
+KERNEL=="enp0s3", NAME="wan0"
+
+## LAN configuration
+# Dell blade
+KERNEL=="eno2", NAME="lan0"
+# VM
+KERNEL=="enp0s8", NAME="lan0"
