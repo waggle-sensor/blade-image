@@ -1,7 +1,7 @@
 [connection]
 id=wan
 type=ethernet
-autoconnect=true
+autoconnect=false
 interface-name=wan0
 permissions=
 
