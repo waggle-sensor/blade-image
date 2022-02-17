@@ -82,5 +82,5 @@ docker run $TTY --rm --privileged \
     -v ${PWD}:/output \
     --env UBUNTU_IMG=${UBUNTU_IMG} \
     --env OUTPUT_NAME=${OUTPUT_NAME} \
-    --env VERSION=${PROJ_VERSION} \
+    --env PROJ_VERSION=${PROJ_VERSION} \
     blade_image_build $CMD
