@@ -32,4 +32,4 @@ mkdir -p /media/plugin-data/k3s/rancher
 ln -s /media/plugin-data/k3s/etc/rancher/ /etc/rancher
 ln -s /media/plugin-data/k3s/kubelet/ /var/lib/kubelet
 ln -s /media/plugin-data/k3s/rancher/ /var/lib/rancher
-INSTALL_K3S_SKIP_DOWNLOAD=true /etc/waggle/k3s_install.sh
+INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true /etc/waggle/k3s_config/k3s_install.sh
