@@ -5,6 +5,7 @@ After=docker.service
 
 [Service]
 Restart=always
+RestartSec=30s
 EnvironmentFile=/etc/waggle/docker_registry_config/waggle-registry-mirrors.env
 EnvironmentFile=-/etc/waggle/docker_registry_config/%N.env
 ExecStartPre=/etc/waggle/docker_registry_config/set_env_mirror.sh \
