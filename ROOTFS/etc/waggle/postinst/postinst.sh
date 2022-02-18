@@ -103,3 +103,6 @@ update-ca-certificates
 # Add docker registry mirror to Docker deamon (original file )
 jq '. += {"registry-mirrors": [ "http://10.31.81.1:5001" ]}' /etc/docker/daemon.json > /tmp/daemon.json
 mv /tmp/daemon.json /etc/docker/daemon.json
+
+# disable ipv6
+echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
