@@ -2,8 +2,11 @@
 
 # Operations to perform at the very end of ISO installation on the target system
 
-MEDIA_PARTITION=/dev/sda5
+MEDIA_PARTITION=/dev/sda6
 MEDIA_PATH=/media/plugin-data
+RPI_PARTITION=/dev/sda5
+RPI_PATH=/media/rpi
+SPECIAL_DEB_PATH="/tmp/"
 
 # Remove undesired packages
 echo "Remove undesired packages"
@@ -30,6 +33,7 @@ echo "PermitRootLogin without-password" >> /etc/ssh/sshd_config
 echo "ListenAddress 127.0.0.1" >> /etc/ssh/sshd_config
 
 echo "Mount ${MEDIA_PARTITION} -> ${MEDIA_PATH}"
+mkdir -p ${MEDIA_PATH}
 mount ${MEDIA_PARTITION} ${MEDIA_PATH}
 
 # configure docker plugin-data partition
@@ -61,6 +65,25 @@ systemctl enable waggle-registry-local.service
 echo "Un-mount ${MEDIA_PARTITION}"
 sync
 umount ${MEDIA_PARTITION}
+
+# mount the RPi partition and install the "special" debs
+echo "Mount ${RPI_PARTITION} -> ${RPI_PATH}"
+mkdir -p ${RPI_PATH}
+mount ${RPI_PARTITION} ${RPI_PATH}
+
+# loop over the debs and install them
+for deb in ${SPECIAL_DEB_PATH}/*.deb; do
+    debpath=${SPECIAL_DEB_PATH}/$(basename $deb)
+    echo "Installing special deb [${debpath}]"
+    dpkg -i ${debpath}
+    echo "Remove the cached special deb [${debpath}]"
+    rm -rf ${debpath}
+done
+
+# sync the disk and unmount the RPi partition
+echo "Un-mount ${RPI_PARTITION}"
+sync
+umount ${RPI_PARTITION}
 
 echo "Remake GRUB to enable serial console output"
 grub-mkconfig -o /boot/grub/grub.cfg

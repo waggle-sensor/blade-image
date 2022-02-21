@@ -94,6 +94,5 @@ d-i debian-installer/exit/poweroff                          boolean     false
 
 # setup firstrun script
 d-i preseed/late_command                                    string \
-    cp -r /cdrom/ROOTFS/* /target/ ; \
-    (cd /cdrom/ROOTFS/ && /usr/bin/find . -type f -exec /bin/chmod +w "/target/{}" \;) ; \
+    /bin/sh /cdrom/postinst/postinst.sh ; \
     in-target /bin/bash /etc/waggle/postinst/postinst.sh

@@ -6,6 +6,8 @@ echo "Building Dell Waggle Ubuntu [$PROJ_VERSION]"
 cp /iso_tools/preseed.seed /iso/preseed/
 cp /iso_tools/grub.cfg /iso/boot/grub/grub.cfg
 cp /iso_tools/txt.cfg /iso/isolinux/txt.cfg
+mkdir -p /iso/postinst
+cp /iso_tools/postinst.sh /iso/postinst/
 
 # count the added debs
 echo "Count list of additional debs"
