@@ -43,6 +43,11 @@ COPY ROOTFS/etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/
 RUN mkdir -p /iso/pool/contrib
 RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES_NVIDIA
 
+# Download the Waggle RPI package that needs to be installed to a separate partition
+RUN mkdir -p /iso/pool/special
+RUN cd /iso/pool/special ; \
+    wget https://github.com/waggle-sensor/sage-rpi-pxeboot/releases/download/v2.1.7/sage-rpi-pxeboot_2.1.7_all.deb
+
 # Waggle packages
 RUN cd /iso/pool/contrib; \
     wget https://github.com/waggle-sensor/waggle-common-tools/releases/download/v0.4.0/waggle-common-tools_0.4.0_all.deb ; \

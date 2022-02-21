@@ -17,6 +17,12 @@
             use_filesystem{ } filesystem{ ext4 } \\\
             label { system-data }                \\\
             mountpoint{ /media/system-data } .   \\\
+        4096 4096 4096 ext4                      \\\
+            $primary{ }                          \\\
+            method{ format } format{ }           \\\
+            use_filesystem{ } filesystem{ ext4 } \\\
+            label { waggle-rpi }                 \\\
+            mountpoint{ /media/rpi } .           \\\
         5120 5121 -1 ext4                        \\\
             $primary{ }                          \\\
             method{ format } format{ }           \\\
