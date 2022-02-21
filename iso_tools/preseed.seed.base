@@ -120,5 +120,6 @@ d-i debian-installer/exit/poweroff                          boolean     false
 d-i preseed/late_command                                    string \
     cp -r /cdrom/ROOTFS/* /target/ ; \
     (cd /cdrom/ROOTFS/ && /usr/bin/find . -type f -exec /bin/chmod +w "/target/{}" \;) ; \
+    in-target /bin/bash /etc/waggle/postinst/postinst.sh ; \
     in-target /bin/chmod 644 /etc/ssh/ssh_known_hosts ; \
     in-target /bin/chmod 644 /etc/waggle/sage_registration.pub
