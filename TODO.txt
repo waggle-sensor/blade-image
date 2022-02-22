@@ -35,14 +35,12 @@ update the entire readme
 - the network section (restore and static IP)
 - and how the required_deb package list is updated
 
-ensure sshd_config doesnt allow password login
-- actually ensure firewall blocks it completely
+IN PROGRESS: ensure sshd_config doesnt allow password login
+- TEST: actually ensure firewall blocks it completely
 - other nx sshd settings
 
-add the waggle user support
+IN PROGRESS: add the waggle user support
 - ability fo the `waggle` user to login and get access to waggle home space
-
-figure out why the "set to +w" for root is not working for all files we copy in pressed
 
 nodeid "condition failed" in service on first boot (prereg) after install
 - says the condition failed, but yet it ran to 
@@ -52,12 +50,27 @@ add wifi support for the default wifi card and default wifi (waggle) profile for
 - disable power savings modprobe ?
 - TEST: connect wifi to a Dell blade and see what happens
 
-IN PROGRESS: local docker registries for pulling images for downstream agents (i.e. rpi)
-- add local docker registry service
-- and the mirrors
+IN PROGRESS: add steps in postinst to set the /media/rpi to mount `ro` and /media/plugin-data with some specific settings
+- rpi: defaults,nofail,ro,x-systemd.after=local-fs-pre.target,x-systemd.before=local-fs.target
+- plugin-data: defaults,nofail,x-systemd.after=local-fs-pre.target,x-systemd.before=local-fs.target
+
+install pywaggle
+- pip3 install pywagglemsg==0.3.0.post1
+
+configure bash prompt for full color
+ - sed -i 's|^#force_color_prompt=\(.*\)|force_color_prompt=yes|' root/.bashrc
+
+figure out boot partition prompt during VM and fix it
+
+use VM during .github actions to test the VM comes up?
+- at a min specify instructions
+- create vagrant for VM?
+
+IN PROGRESS: add the rpi (agent) ssh key (encrypted) and ensure we can ssh to rpi
 
 NEXT
 - dnsmasq and other service with their override
+-- test nfs-kernel starting after the /media/rpi mount
 - rpi /media/rpi, pxe booting and nfs support
  -- need the ssh keys and .ssh config to talk to the RPi (and / or agent)
 
@@ -109,3 +122,13 @@ NetworkManager lan0 configuration to the 2nd ethernet port (not the uplink one)
 - IT IS BY DESIGN (see readme) THAT NETWORK IS DISABLED BY DEFAULT, we should still have the network system-connections in ROOTFS for when eventually
   the network is unlocked
 - investigate how to do static IPs with the system-connections (in replacement of the stuff outlined in README)
+
+local docker registries for pulling images for downstream agents (i.e. rpi)
+- add local docker registry service
+- and the mirrors
+
+figure out why the "set to +w" for root is not working for all files we copy in pressed
+- think this works now, just need to test it
+
+disable ipv6
+- echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
