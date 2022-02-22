@@ -110,6 +110,7 @@ systemctl enable waggle-k3s-shutdown
 echo "Set file permissions"
 chmod 700 /root/.ssh
 chmod 600 /root/.ssh/*
+chmod 600 /home/waggle/.ssh/*
 chmod 644 /etc/ssh/ssh_known_hosts
 chmod 600 /etc/waggle/id_rsa_waggle_registration.enc
 chmod 600 /etc/waggle/sage_registration.enc
@@ -118,6 +119,7 @@ chmod 644 /etc/waggle/sage_registration.pub
 chmod 600 /etc/NetworkManager/system-connections/*
 chmod 644 /etc/waggle/docker/certs/domain.crt
 chmod 600 /etc/waggle/docker/certs/domain.key
+chmod 440 /etc/sudoers.d/waggle
 
 ## Configure the docker local registry certification
 echo "Configure the docker local registry certs"
@@ -135,3 +137,9 @@ mv /tmp/daemon.json /etc/docker/daemon.json
 # disable ipv6
 echo "Disable IPv6"
 echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
+
+# add the 'waggle' development user
+echo "Add the 'waggle' user"
+useradd -m waggle -s /bin/bash
+chown -R waggle:waggle /home/waggle
+chmod -R +w /home/waggle
