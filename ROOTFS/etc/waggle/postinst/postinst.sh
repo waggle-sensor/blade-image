@@ -54,6 +54,7 @@ ln -s ${MEDIA_PATH}/k3s/rancher/ /var/lib/rancher
 INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_SKIP_START=true K3S_CLUSTER_SECRET=4tX0DUZ0uQknRtVUAKjt /etc/waggle/k3s_config/k3s_install.sh
 
 # enable the docker registry mirror services
+echo "Enable the docker registry mirror services"
 mkdir -p ${MEDIA_PATH}/docker_registry/mirrors/docker
 systemctl enable waggle-registry-mirror-docker.service
 mkdir -p ${MEDIA_PATH}/docker_registry/mirrors/sage
@@ -102,9 +103,11 @@ systemctl disable apt-daily.timer
 systemctl disable apt-daily-upgrade.timer
 
 # enable the graceful k3s shutdown service
+echo "Enable the graceful k3s shutdown service"
 systemctl enable waggle-k3s-shutdown
 
 # set proper permissions for files
+echo "Set file permissions"
 chmod 700 /root/.ssh
 chmod 600 /root/.ssh/*
 chmod 644 /etc/ssh/ssh_known_hosts
@@ -117,6 +120,7 @@ chmod 644 /etc/waggle/docker/certs/domain.crt
 chmod 600 /etc/waggle/docker/certs/domain.key
 
 ## Configure the docker local registry certification
+echo "Configure the docker local registry certs"
 mkdir -p /etc/docker/certs.d/10.31.81.1\:5000/
 cp /etc/waggle/docker/certs/domain.crt /etc/docker/certs.d/10.31.81.1\:5000/
 mkdir -p /usr/local/share/ca-certificates
@@ -124,8 +128,10 @@ cp /etc/waggle/docker/certs/domain.crt /usr/local/share/ca-certificates/docker.c
 update-ca-certificates
 
 # Add docker registry mirror to Docker deamon (original file )
+echo "Configure Docker to use the local registry mirror (for docker.io)"
 jq '. += {"registry-mirrors": [ "http://10.31.81.1:5001" ]}' /etc/docker/daemon.json > /tmp/daemon.json
 mv /tmp/daemon.json /etc/docker/daemon.json
 
 # disable ipv6
+echo "Disable IPv6"
 echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
