@@ -143,3 +143,9 @@ echo "Add the 'waggle' user"
 useradd -m waggle -s /bin/bash
 chown -R waggle:waggle /home/waggle
 chmod -R +w /home/waggle
+
+# update the /media/plugin-data, /media/rpi and swap mounts
+echo "Modify the ${MEDIA_PATH}, ${RPI_PATH} and swap fstab mounts"
+sed -i "s|\(^.*${MEDIA_PATH}.*\)\(defaults\)|\1\2,nofail,x-systemd.after=local-fs-pre.target,x-systemd.before=local-fs.target|" /etc/fstab
+sed -i "s|\(^.*${RPI_PATH}.*\)\(defaults\)|\1\2,nofail,ro,x-systemd.after=local-fs-pre.target,x-systemd.before=local-fs.target|" /etc/fstab
+sed -i "s|\(^.*swap.*\)\(sw\)|\1\2,nofail|" /etc/fstab
