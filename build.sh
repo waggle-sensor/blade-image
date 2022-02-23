@@ -64,6 +64,7 @@ echo "Build Parameters:"
 echo -e " Ubuntu image:\t${UBUNTU_IMG}"
 echo -e " Output name:\t${OUTPUT_NAME}"
 echo -e " Version:\t${PROJ_VERSION}"
+echo -e " VM Mode\t${VM_MODE}"
 
 PWD=`pwd`
 
