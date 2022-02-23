@@ -6,7 +6,8 @@ MEDIA_PARTITION=/dev/sda6
 MEDIA_PATH=/media/plugin-data
 RPI_PARTITION=/dev/sda5
 RPI_PATH=/media/rpi
-SPECIAL_DEB_PATH="/tmp/"
+POSTINST_PATH=/postinst
+SPECIAL_DEB_PATH=${POSTINST_PATH}/debs/
 
 # Remove undesired packages
 echo "Remove undesired packages"
@@ -85,6 +86,10 @@ done
 echo "Un-mount ${RPI_PARTITION}"
 sync
 umount ${RPI_PARTITION}
+
+# delete the cache directory
+echo "Remove the post install cache directory [${POSTINST_PATH}]"
+rm -rf ${POSTINST_PATH}
 
 echo "Remake GRUB to enable serial console output"
 grub-mkconfig -o /boot/grub/grub.cfg
