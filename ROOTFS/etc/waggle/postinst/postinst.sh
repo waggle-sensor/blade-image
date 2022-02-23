@@ -8,6 +8,7 @@ RPI_PARTITION=/dev/sda5
 RPI_PATH=/media/rpi
 POSTINST_PATH=/postinst
 SPECIAL_DEB_PATH=${POSTINST_PATH}/debs/
+PYTHON_PATH=${POSTINST_PATH}/pip/
 
 # Remove undesired packages
 echo "Remove undesired packages"
@@ -86,6 +87,10 @@ done
 echo "Un-mount ${RPI_PARTITION}"
 sync
 umount ${RPI_PARTITION}
+
+# install the required python packags
+echo "Install python packages [${PYTHON_PATH}]"
+python3 -m pip install -r ${PYTHON_PATH}/required_pip_packages.txt --no-index --find-links=file://${PYTHON_PATH}
 
 # delete the cache directory
 echo "Remove the post install cache directory [${POSTINST_PATH}]"
