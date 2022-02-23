@@ -62,6 +62,16 @@ RUN cd /iso/pool/contrib; \
     wget https://github.com/waggle-sensor/waggle-firewall/releases/download/v1.1.0/waggle-firewall_1.1.0_all.deb
 ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid waggle-node-hostname waggle-registration waggle-reverse-tunnel waggle-bk-registration waggle-bk-reverse-tunnel waggle-wan-tunnel waggle-internet-share waggle-firewall"
 
+# Download the Waggle python packages to be installed to the end-system
+#  - python versions match end-system verions
+RUN apt-get update && apt-get install -y \
+    python3.6=3.6.9-1~18.04ubuntu1.6 \
+    python3-pip=9.0.1-2.3~ubuntu1.18.04.5
+RUN mkdir -p /iso/waggle/pip
+COPY required_pip_packages.txt /iso/waggle/pip/
+# - this will download all packages and dependencies
+RUN python3 -m pip download -r /iso/waggle/pip/required_pip_packages.txt -d /iso/waggle/pip
+
 COPY iso_tools /iso_tools
 # Add additional packages to install list in pressed
 ARG PARTITION_LAYOUT
