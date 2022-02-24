@@ -16,8 +16,8 @@ neccessary packages and Waggle software tools for installation on a Dell blade.
 }
 
 CMD="./create_image.sh"
-OUTPUT_NAME="waggle-ubuntu"
-BUILDNAME="dell"
+OUTPUT_NAME="waggle"
+BUILDNAME="blade"
 UBUNTU_IMG="ubuntu-18.04.5-server-amd64.iso"
 FORCE=
 TTY=
