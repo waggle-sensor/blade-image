@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   validate_pressed:
@@ -17,12 +17,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install debconf-utils
       - name: Validate preseed
-        run: debconf-set-selections -v -c iso_tools/preseed.seed
+        run: debconf-set-selections -v -c iso_tools/preseed.seed.base
 
-  build_iso:
-    name: Build ISO
+  build_iso_vm:
+    name: Build ISO (VM)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build Test ISO
-        run: ./build.sh
+      - name: Build Test ISO (VM)
+        run: ./build.sh -v -f
+
+  build_iso_blade:
+    name: Build ISO (Blade)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Test ISO (Blade)
+        run: ./build.sh -f
