@@ -1,27 +1,10 @@
 TODO
 
-IN PROGRESS: configure journalctl
-- DONE: change the waggle-init from rsyslog to journalctl (remove the rsyslog config) (this may arleady just work)
-- DONE: make sure it is on the overlay rw partition (just like the NX)
-- before: Feb 17 15:07:24 sb-prereg systemd-journald[423]: System journal (/var/log/journal/d0a07a21b7c049d9916a1869da31d7c7) is 8.0M, max 474.2M, 466.2M free.
-- after: Feb 17 17:32:04 sb-prereg systemd-journald[424]: System journal (/var/log/journal/9d48dc14ff47463fbdf39a1806edb756) is 8.0M, max 3.6G, 3.6G free.
- -- TEST: this is with a 5GB rw partition.  so we can check later on a real system
-
 update the entire readme
 - specifically the unlock registration part
 - the iso file name and version break down (if its changed)
 - the network section (restore and static IP)
 - and how the required_deb package list is updated
-
-IN PROGRESS: add the waggle user support
-- ability fo the `waggle` user to login and get access to waggle home space
-- TEST: need write access to /home/waggle
-- TEST: docker and kubectl access (done)
-
-IN PROGRESS: install pywaggle
-- pip3 install pywagglemsg==0.3.0.post1
-
-figure out boot partition prompt during VM and fix it
 
 use VM during .github actions to test the VM comes up?
 - at a min specify instructions
@@ -126,3 +109,23 @@ PASS on this: add wifi support for the default wifi card and default wifi (waggl
 - i don't know if we need to add driver support, etc.
 - disable power savings modprobe ?
 - TEST: connect wifi to a Dell blade and see what happens
+
+add the waggle user support
+- ability fo the `waggle` user to login and get access to waggle home space
+- TEST: need write access to /home/waggle
+- TEST: docker and kubectl access (done)
+
+install pywaggle
+- pip3 install pywagglemsg==0.3.0.post1
+
+figure out boot partition prompt during VM and fix it
+- TEST: on the Dell machine to
+ -- (a) see if 1MB partition exists and
+ -- (b) system still boots
+
+configure journalctl
+- DONE: change the waggle-init from rsyslog to journalctl (remove the rsyslog config) (this may arleady just work)
+- DONE: make sure it is on the overlay rw partition (just like the NX)
+- before: Feb 17 15:07:24 sb-prereg systemd-journald[423]: System journal (/var/log/journal/d0a07a21b7c049d9916a1869da31d7c7) is 8.0M, max 474.2M, 466.2M free.
+- after: Feb 17 17:32:04 sb-prereg systemd-journald[424]: System journal (/var/log/journal/9d48dc14ff47463fbdf39a1806edb756) is 8.0M, max 3.6G, 3.6G free.
+ -- TEST: this is with a 5GB rw partition.  so we can check later on a real system
