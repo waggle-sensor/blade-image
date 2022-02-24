@@ -2,9 +2,9 @@
 
 # Operations to perform at the very end of ISO installation on the target system
 
-MEDIA_PARTITION=/dev/sda6
+MEDIA_PARTITION=/dev/sda7
 MEDIA_PATH=/media/plugin-data
-RPI_PARTITION=/dev/sda5
+RPI_PARTITION=/dev/sda6
 RPI_PATH=/media/rpi
 POSTINST_PATH=/postinst
 SPECIAL_DEB_PATH=${POSTINST_PATH}/debs/
@@ -26,7 +26,7 @@ sed -i '/\/media\/system-data/d' /etc/fstab
 
 # configure root overlay
 echo "Enable overlayroot file system"
-sed -i 's|overlayroot=""|overlayroot="device:dev=/dev/sda4,timeout=180,recurse=0,swap=1"|' /etc/overlayroot.conf
+sed -i 's|overlayroot=""|overlayroot="device:dev=/dev/sda5,timeout=180,recurse=0,swap=1"|' /etc/overlayroot.conf
 
 # update ssh conf
 echo "Configure SSHD Config"

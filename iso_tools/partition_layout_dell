@@ -1,4 +1,7 @@
     gpt-boot-root-swap ::                        \\\
+         1 1 1 free                              \\\
+            $bios_boot{ }                        \\\
+            method{ biosgrub } .                 \\\
         200 200 200 fat32                        \\\
             $primary{ }                          \\\
             method{ efi } format{ } .            \\\
