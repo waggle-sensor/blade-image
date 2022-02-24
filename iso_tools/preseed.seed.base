@@ -15,8 +15,8 @@ d-i keyboard-configuration/xkb-keymap                       select      us(intl)
 d-i debconf/language                                        string      en_US:en
 
 # network settings
-d-i netcfg/enable 				                                  boolean     false
-d-i netcfg/choose_interface 				                        select      auto
+d-i netcfg/enable                                           boolean     false
+d-i netcfg/choose_interface                                 select      auto
 d-i netcfg/get_hostname                                     string      sb-prereg
 d-i netcfg/get_domain                                       string      sb-prereg
 
@@ -60,18 +60,19 @@ d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     false
 
 # disk partitioning
-d-i preseed/early_command string umount /media || true
-d-i partman/alignment string cylinder
-d-i partman/confirm_write_new_label boolean true
-d-i partman-basicfilesystems/choose_label string gpt
-d-i partman-basicfilesystems/default_label string gpt
-d-i partman-partitioning/choose_label string gpt
-d-i partman-partitioning/default_label string gpt
-d-i partman/choose_label string gpt
-d-i partman/default_label string gpt
+d-i preseed/early_command                                   string      umount /media || true
+d-i partman/alignment                                       string      cylinder
+d-i partman/confirm_write_new_label                         boolean     true
+d-i partman-basicfilesystems/choose_label                   string      gpt
+d-i partman-basicfilesystems/default_label                  string      gpt
+d-i partman-partitioning/choose_label                       string      gpt
+d-i partman-partitioning/default_label                      string      gpt
 
-d-i partman-auto/method string regular
-d-i partman-auto/choose_recipe select gpt-boot-root-swap
+d-i partman/choose_label                                    string      gpt
+d-i partman/default_label                                   string      gpt
+
+d-i partman-auto/method                                     string      regular
+d-i partman-auto/choose_recipe                              select      gpt-boot-root-swap
 # Swap: 16GB, / 16GB, sys-data 256GB, plugin-data 256GB (min; 100% of rest)
 d-i partman-auto/expert_recipe string            \
     {{PARTITION_LAYOUT}}
