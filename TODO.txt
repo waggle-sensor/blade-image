@@ -1,11 +1,5 @@
 TODO
 
-update the entire readme
-- specifically the unlock registration part
-- the iso file name and version break down (if its changed)
-- the network section (restore and static IP)
-- and how the required_deb package list is updated
-
 use VM during .github actions to test the VM comes up?
 - at a min specify instructions
 - create vagrant for VM?
@@ -129,3 +123,9 @@ configure journalctl
 - before: Feb 17 15:07:24 sb-prereg systemd-journald[423]: System journal (/var/log/journal/d0a07a21b7c049d9916a1869da31d7c7) is 8.0M, max 474.2M, 466.2M free.
 - after: Feb 17 17:32:04 sb-prereg systemd-journald[424]: System journal (/var/log/journal/9d48dc14ff47463fbdf39a1806edb756) is 8.0M, max 3.6G, 3.6G free.
  -- TEST: this is with a 5GB rw partition.  so we can check later on a real system
+
+update the entire readme
+- specifically the unlock registration part
+- the iso file name and version break down (if its changed)
+- the network section (restore and static IP)
+- and how the required_deb package list is updated
