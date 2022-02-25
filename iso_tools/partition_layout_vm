@@ -3,30 +3,37 @@
             $bios_boot{ }                        \\\
             method{ biosgrub } .                 \\\
         200 200 200 fat32                        \\\
+            $lvmignore{ }                      \\\
             $primary{ }                          \\\
             method{ efi } format{ } .            \\\
         1024 1024 1024 linux-swap                \\\
+            $lvmignore{ }                      \\\
             $primary{ }                          \\\
             method{ swap } format{ } .           \\\
         10240 10240 10240 ext4                   \\\
+            $lvmignore{ }                      \\\
             $primary{ } $bootable{ }             \\\
             method{ format } format{ }           \\\
             use_filesystem{ } filesystem{ ext4 } \\\
             label { root }                       \\\
             mountpoint{ / } .                    \\\
         5120 5120 5120 ext4                      \\\
+            $lvmignore{ }                      \\\
             $primary{ }                          \\\
             method{ format } format{ }           \\\
             use_filesystem{ } filesystem{ ext4 } \\\
             label { system-data }                \\\
             mountpoint{ /media/system-data } .   \\\
         4096 4096 4096 ext4                      \\\
+            $lvmignore{ }                      \\\
             $primary{ }                          \\\
             method{ format } format{ }           \\\
             use_filesystem{ } filesystem{ ext4 } \\\
             label { waggle-rpi }                 \\\
             mountpoint{ /media/rpi } .           \\\
         5120 5121 -1 ext4                        \\\
+            $lvmok{ }                     \\\
+            lv_name{ plugin-data }          \\\
             $primary{ }                          \\\
             method{ format } format{ }           \\\
             use_filesystem{ } filesystem{ ext4 } \\\
