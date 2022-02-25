@@ -187,6 +187,9 @@ To access the blade via the iDRAC console execute the following command to racad
 console com2
 ```
 
+> *Note*:
+> You can execute the command `getsysinfo` to figure out the "Service Tag" among other information.
+
 ##### iDRAC Web Interface
 
 If local iDRAC access is possible you may use the iDRAC web interface to launch the Virtual Console to 
