@@ -3,3 +3,5 @@ waggle ALL=NOPASSWD: /usr/bin/docker
 waggle ALL=NOPASSWD: /usr/local/bin/docker
 waggle ALL=NOPASSWD: /usr/bin/docker-compose
 waggle ALL=NOPASSWD: /usr/local/bin/docker-compose
+waggle ALL=NOPASSWD: /usr/bin/runplugin
+waggle ALL=NOPASSWD: /usr/bin/pluginctl
