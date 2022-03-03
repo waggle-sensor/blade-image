@@ -293,7 +293,53 @@ enter the static IP configuration parameters.
 nmcli c reload
 ```
 
-### 5) Validate the Reverse SSH Tunnel to Beekeeper
+### 5) Validate `wan0` Network Traffic
+
+With the network configured, we need to validate the machine is communicating over `wan0`.
+While still logged into the console execute the following command to identify if `wan0` is
+getting an IP address and there is network traffic
+
+```
+ifconfig wan0
+```
+
+You will see something like this:
+
+```
+wan0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.88.236  netmask 255.255.255.0  broadcast 192.168.88.255
+        ether 2c:ea:7f:a0:b7:5c  txqueuelen 1000  (Ethernet)
+        RX packets 1684121  bytes 1770750552 (1.7 GB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 818408  bytes 76200549 (76.2 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device interrupt 17
+```
+
+Validate that IP address (`inet`) is populated with a valid IP (either from the DHCP
+or static IP set above).
+
+Additionally, validate that there is network traffic by executing the following command:
+
+```
+iftop -i wan0
+```
+
+This will show if there is current network activity on `wan0`. For example:
+
+```
+TX:             cum:    121KB   peak:   17.7Kb         rates:   2.37Kb  4.81Kb  2.51Kb
+RX:                    31.4KB           9.16Kb                  1.13Kb  2.43Kb  1.30Kb
+TOTAL:                  152KB           26.8Kb                  3.50Kb  7.24Kb  3.80Kb
+```
+
+Once, it is confirmed that `wan0` has Internet access proceed to testing the Reverse SSH tunnel.
+
+> *Note:*
+> If the above `iftop` command doesn't show network activity (i.e. no increasing count in TX/RX) then
+> there is an issue with the `wan0` configuration.
+
+### 6) Validate the Reverse SSH Tunnel to Beekeeper
 
 With Internet access enabled, the Waggle reverse tunnel service (`waggle-bk-reverse-tunnel`) will
 automatically establish a tunnel to Beekeeper. To validate that connection, open a terminal on
@@ -307,7 +353,7 @@ ssh node-<node ID>
 > The node ID for the machine can be identified from the "Waggle login splash" screen
 > (see [Login and Program VSN](#vsn)) or the `/etc/waggle/node-id` file.
 
-### 6) Reboot Machine & Validate Reverse SSH Tunnel Auto-Starts
+### 7) Reboot Machine & Validate Reverse SSH Tunnel Auto-Starts
 
 Now that the reverse tunnel has been established the machine needs to be restarted to
 program its final hostname (i.e. `sb-core-<node ID>`). Execute a reboot:
