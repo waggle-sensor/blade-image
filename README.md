@@ -63,6 +63,13 @@ cat waggle_blade-1.2.3-0-aee27ec.iso-* > waggle_blade-1.2.3-0-aee27ec.iso
 
 ### <a name="flashing_iso"></a> 1) Flashing the ISO
 
+Download the ISO from 1 of the following 2 locations:
+- Public AWS [latest stable]: http://54.196.185.44/waggle_blade.iso
+- Release page: https://github.com/waggle-sensor/blade-image/releases
+
+> *Note*:
+> You can find the list of files available for download in the public AWS by visiting this page: http://54.196.185.44/files/
+
 #### Dell Blade Hardware
 
 > *Note*:
