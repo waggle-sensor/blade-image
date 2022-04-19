@@ -375,7 +375,44 @@ And after ~5 minutes attempt to re-connect to the machine using the Beekeeper re
 ssh node-<node ID>
 ```
 
-Once the tunnel is confirmed to be re-established the Dell blade configuration is complete!
+### <a name="preload"></a> 8) Pre-load the AI/ML Base Images
+
+Next the AI/ML base images should be loaded.
+
+1) SSH to the node
+```
+ssh node-<node ID>
+```
+
+2) Execute the following script to load the base images
+```
+PRELOAD_IMAGES=(
+  "waggle/plugin-base:1.1.1-base1.1.1-ros2-foxy"
+  "waggle/plugin-base:1.1.1-base1.1.1-ros-noetic"
+  "waggle/plugin-base:1.1.1-base"
+  "waggle/plugin-base:1.1.1-ml-cuda11.0-amd64"
+  "waggle/plugin-base:1.1.1-ml"
+)
+for f in ${PRELOAD_IMAGES[@]}; do k3s crictl pull $f; done
+```
+
+3) Check that all the base images are loaded
+```
+crictl images | grep plugin-base
+```
+You should see the following output
+```
+docker.io/waggle/plugin-base                1.1.1-base                   69a7a9948db6a       297MB
+docker.io/waggle/plugin-base                1.1.1-base1.1.1-ros-noetic   fc099ee65cade       497MB
+docker.io/waggle/plugin-base                1.1.1-base1.1.1-ros2-foxy    b2272c37b0b5b       420MB
+docker.io/waggle/plugin-base                1.1.1-ml                     ff9f8cbc318e4       3.57GB
+docker.io/waggle/plugin-base                1.1.1-ml-cuda11.0-amd64      ff9f8cbc318e4       3.57GB
+```
+
+> *Note*:
+> The loading of the images will require ~4GB of network bandwidth and may take several minutes to download.
+
+Once the base images have been successfully loaded the Dell blade configuration is complete!
 
 ## Important folders
 
