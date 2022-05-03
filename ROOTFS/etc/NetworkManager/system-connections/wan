@@ -10,7 +10,6 @@ auto-negotiate=true
 mac-address-blacklist=
 
 [ipv4]
-dns=8.8.8.8;
 dns-search=
 method=auto
 
