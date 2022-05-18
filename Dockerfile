@@ -38,6 +38,9 @@ RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES
 
 # NVidia additional packages
 ARG REQ_PACKAGES_NVIDIA
+RUN cd /tmp \
+    && wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-keyring_1.0-1_all.deb \
+    && dpkg -i cuda-keyring_1.0-1_all.deb
 COPY ROOTFS/etc/apt/trusted.gpg.d/*.asc /etc/apt/trusted.gpg.d/
 COPY ROOTFS/etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/
 RUN mkdir -p /iso/pool/contrib
