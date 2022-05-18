@@ -1,6 +1,9 @@
 ## This file includes all the Debian packages (and dependencies) for the cuda=11.0.3-1 on top of `required_deb_packages`
 ## -----------------------------------------------------------------------------------------------------------
 
+## apt repository signature package
+cuda-keyring=1.0-1
+
 ## cuda=11.0.3-1
 adwaita-icon-theme=3.28.0-1ubuntu1
 ca-certificates-java=20180516ubuntu1~18.04.1
