@@ -2,7 +2,7 @@
 
 print_help() {
   echo """
-usage: build.sh [-d] [-f] [-o] [-v]
+usage: build.sh [-d] [-f] [-o] [-v] [-z]
 
 Create a modified Ubuntu ISO from a base Ubuntu ISO that contains all
 neccessary packages and Waggle software tools for installation on a Dell blade.
@@ -11,6 +11,7 @@ neccessary packages and Waggle software tools for installation on a Dell blade.
   -d : don't build the image and enter debug mode within the Docker build environment.
   -f : force the build to proceed (debugging only) without checking for tagged commit
   -v : build the image for a test virtual machine
+  -z : do a full non-cached build.
   -? : print this help menu
 """
 }
@@ -23,7 +24,7 @@ FORCE=
 TTY=
 PARTITION_LAYOUT=$(cat ./iso_tools/partition_layout_dell)
 VM_MODE=
-while getopts "o:fdv?" opt; do
+while getopts "o:fdvz?" opt; do
   case $opt in
     o) OUTPUT_NAME=$OPTARG
       ;;
@@ -41,6 +42,10 @@ while getopts "o:fdv?" opt; do
       echo "** VM mode: build for virtual machine **"
       PARTITION_LAYOUT=$(cat ./iso_tools/partition_layout_vm)
       VM_MODE=1
+      ;;
+    z) # do a full non-cached build
+      echo "** EXECUTING A FULL BUILD (no cache) **"
+      DOCKER_CACHE="--no-cache"
       ;;
     ?|*)
       print_help
@@ -73,7 +78,7 @@ REQ_PACKAGES=$(sed -e '/^#/d' required_deb_packages.txt | tr '\n' ' ')
 REQ_PACKAGES_NVIDIA=$(sed -e '/^#/d' required_deb_nvidia_packages.txt | tr '\n' ' ')
 
 # create and run the Docker build environment
-docker build -f Dockerfile -t blade_image_build \
+docker build ${DOCKER_CACHE} -f Dockerfile -t blade_image_build \
     --build-arg UBUNTU_IMG="${UBUNTU_IMG}" \
     --build-arg REQ_PACKAGES="${REQ_PACKAGES}" \
     --build-arg REQ_PACKAGES_NVIDIA="${REQ_PACKAGES_NVIDIA}" \
