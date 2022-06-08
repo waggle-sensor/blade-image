@@ -15,7 +15,7 @@
 # apt-transport-https=1.6.12ubuntu0.2
 ## (already in base) ca-certificates=20210119~18.04.2
 ## (already in base) curl=7.58.0-2ubuntu3.18
-# gnupg-agent=2.2.4-1ubuntu1.3
+# gnupg-agent=2.2.4-1ubuntu1.5
 ## (already in base) software-properties-common=0.96.24.32.18
 
 ## Docker itself and requirements
@@ -26,7 +26,7 @@
 ## Misc tools
 # ansible=2.5.1+dfsg-1ubuntu0.1
 # autossh=1.4e-4
-# bluez=5.48-0ubuntu3.8
+# bluez=5.48-0ubuntu3.9
 ## (already in base) bridge-utils=1.5-15ubuntu1
 # bwm-ng=0.6.1-5
 # haveged=1.9.1-6
@@ -70,23 +70,23 @@
 
 # first pass to install required images to get docker sources
 apt-transport-https=1.6.12ubuntu0.2
-dirmngr=2.2.4-1ubuntu1.4
-gnupg=2.2.4-1ubuntu1.4
-gnupg-agent=2.2.4-1ubuntu1.3
-gnupg-l10n=2.2.4-1ubuntu1.4
-gnupg-utils=2.2.4-1ubuntu1.4
-gpg=2.2.4-1ubuntu1.4
-gpg-agent=2.2.4-1ubuntu1.4
-gpgconf=2.2.4-1ubuntu1.4
-gpgsm=2.2.4-1ubuntu1.4
-gpgv=2.2.4-1ubuntu1.4
-gpg-wks-client=2.2.4-1ubuntu1.4
-gpg-wks-server=2.2.4-1ubuntu1.4
+dirmngr=2.2.4-1ubuntu1.5
+gnupg=2.2.4-1ubuntu1.5
+gnupg-agent=2.2.4-1ubuntu1.5
+gnupg-l10n=2.2.4-1ubuntu1.5
+gnupg-utils=2.2.4-1ubuntu1.5
+gpg=2.2.4-1ubuntu1.5
+gpg-agent=2.2.4-1ubuntu1.5
+gpgconf=2.2.4-1ubuntu1.5
+gpgsm=2.2.4-1ubuntu1.5
+gpgv=2.2.4-1ubuntu1.5
+gpg-wks-client=2.2.4-1ubuntu1.5
+gpg-wks-server=2.2.4-1ubuntu1.5
 
 # all the rest of the packages
 ansible=2.5.1+dfsg-1ubuntu0.1
 autossh=1.4e-4
-bluez=5.48-0ubuntu3.8
+bluez=5.48-0ubuntu3.9
 bwm-ng=0.6.1-5
 containerd.io=1.4.12-1
 dnsmasq=2.79-1
@@ -101,7 +101,7 @@ iperf=2.0.10+dfsg1-1ubuntu0.18.04.2
 iperf3=3.1.3-1
 jq=1.5+dfsg-2
 keyutils=1.5.9-9.2ubuntu2
-libbluetooth3=5.48-0ubuntu3.8
+libbluetooth3=5.48-0ubuntu3.9
 libgudev-1.0-0=1:232-2
 libhavege1=1.9.1-6
 libi2c0=4.0-2

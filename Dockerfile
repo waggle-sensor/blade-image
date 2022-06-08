@@ -24,9 +24,9 @@ RUN curl -L https://old-releases.ubuntu.com/releases/bionic/${UBUNTU_IMG} > /${U
 # Get the docker apt source as docker is a required package to be downloaded below
 RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-transport-https=1.6.12ubuntu0.2 \
-    ca-certificates=20210119~18.04.2 \
+    ca-certificates=20211016~18.04.1 \
     curl=7.58.0-2ubuntu3.18 \
-    gnupg-agent=2.2.4-1ubuntu1.3 \
+    gnupg-agent=2.2.4-1ubuntu1.5 \
     software-properties-common=0.96.24.32.18
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
