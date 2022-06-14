@@ -148,6 +148,11 @@ mv /tmp/daemon.json /etc/docker/daemon.json
 echo "Disable IPv6"
 echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.conf
 
+# set Loose Reverse Path
+echo "set Loose Reverse Path"
+echo 'net.ipv4.conf.default.rp_filter = 2' >> /etc/sysctl.conf
+echo 'net.ipv4.conf.all.rp_filter = 2' >> /etc/sysctl.conf
+
 # add the 'waggle' development user
 echo "Add the 'waggle' user"
 useradd -m waggle -s /bin/bash
