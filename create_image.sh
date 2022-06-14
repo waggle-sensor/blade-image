@@ -28,5 +28,11 @@ mkisofs -D -r -V "AUTOINSTALL" -cache-inodes -J -l -b isolinux/isolinux.bin \
     -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o \
     /tmp/${ouputfile} .
 popd
+cp /tmp/${ouputfile} /output/${ouputfile}.pre
+# TOOD: try to install this hybrid iso into a VM and see that it auto-installs correctly
+## if it does then we can do 1 of 2 things
+## 1. update README to outline how to make a USB bootable ISO
+## 2. change these steps to make the hybrid ISO only and upload that (as long as that works for all cases)
+isohybrid /tmp/${ouputfile}
 mv /tmp/${ouputfile} /output
 echo "ISO [${ouputfile}] created successfully."

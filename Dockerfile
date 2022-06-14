@@ -118,4 +118,6 @@ RUN if [ -n "$VM_MODE" ]; then \
     rm /ROOTFS/etc/waggle/config-vm.ini ; \
     fi
 
+RUN apt-get update && apt-get install -y syslinux-utils
+
 COPY create_image.sh .
