@@ -56,14 +56,12 @@ RUN cd /iso/pool/contrib; \
     wget https://github.com/waggle-sensor/waggle-common-tools/releases/download/v1.0.0/waggle-common-tools_1.0.0_all.deb ; \
     wget https://github.com/waggle-sensor/waggle-nodeid/releases/download/v1.0.7/waggle-nodeid_1.0.7_all.deb ; \
     wget https://github.com/waggle-sensor/waggle-node-hostname/releases/download/v1.2.1/waggle-node-hostname_1.2.1_all.deb ; \
-    wget https://github.com/waggle-sensor/node-registration-service/releases/download/v1.2.3/waggle-registration_1.2.2.local-0575b18_all.deb ; \
-    wget https://github.com/waggle-sensor/node-registration-service/releases/download/v1.2.3/waggle-reverse-tunnel_1.2.2.local-0575b18_all.deb ; \
     wget https://github.com/waggle-sensor/waggle-bk-registration/releases/download/v2.2.2/waggle-bk-registration_2.2.2_all.deb ; \
     wget https://github.com/waggle-sensor/waggle-bk-reverse-tunnel/releases/download/v2.3.2/waggle-bk-reverse-tunnel_2.3.2_all.deb ; \
     wget https://github.com/waggle-sensor/waggle-wan-tunnel/releases/download/v1.0.0/waggle-wan-tunnel_1.0.0_all.deb ; \
     wget https://github.com/waggle-sensor/waggle-internet-share/releases/download/v1.4.1/waggle-internet-share_1.4.1_all.deb ; \
     wget https://github.com/waggle-sensor/waggle-firewall/releases/download/v1.1.3/waggle-firewall_1.1.3_all.deb
-ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid waggle-node-hostname waggle-registration waggle-reverse-tunnel waggle-bk-registration waggle-bk-reverse-tunnel waggle-wan-tunnel waggle-internet-share waggle-firewall"
+ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid waggle-node-hostname waggle-bk-registration waggle-bk-reverse-tunnel waggle-wan-tunnel waggle-internet-share waggle-firewall"
 
 # Download the Waggle python packages to be installed to the end-system
 #  - python versions match end-system verions
