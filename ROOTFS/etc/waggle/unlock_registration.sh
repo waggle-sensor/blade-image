@@ -1,9 +1,6 @@
 #!/bin/bash
 # Unlock the registration key(s)
 
-BEEHIVE_KEY=/etc/waggle/id_rsa_waggle_registration
-BEEHIVE_KEY_ENC=${BEEHIVE_KEY}.enc
-BEEHIVE_CHECKSUM=5fd9b3233c94e6b17f67120222c1e765530cb149
 BEEKEEPER_KEY=$(waggle-get-config -s registration -k key)
 BEEKEEPER_KEY_ENC=${BEEKEEPER_KEY}.enc
 BEEKEEPER_CHECKSUM=$(waggle-get-config -s registration -k keychecksum)
@@ -49,10 +46,6 @@ function unlock_key() {
         fi
     fi
 }
-
-# Beehive key
-echo "<< Beehive Key Unlock >>"
-unlock_key "Beehive" ${BEEHIVE_KEY} ${BEEHIVE_KEY_ENC} ${BEEHIVE_CHECKSUM}
 
 # Beekeeper key
 echo

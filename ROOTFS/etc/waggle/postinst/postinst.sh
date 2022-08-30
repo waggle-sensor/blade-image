@@ -122,7 +122,6 @@ chmod 700 /root/.ssh
 chmod 600 /root/.ssh/*
 chmod 600 /home/waggle/.ssh/*
 chmod 644 /etc/ssh/ssh_known_hosts
-chmod 600 /etc/waggle/id_rsa_waggle_registration.enc
 chmod 600 /etc/waggle/sage_registration.enc
 chmod 600 /etc/waggle/sage_registration-cert.pub
 chmod 644 /etc/waggle/sage_registration.pub
