@@ -15,7 +15,7 @@
 # apt-transport-https=1.6.12ubuntu0.2
 ## (already in base) ca-certificates=20210119~18.04.2
 ## (already in base) curl=7.58.0-2ubuntu3.18
-# gnupg-agent=2.2.4-1ubuntu1.5
+# gnupg-agent=2.2.4-1ubuntu1.6
 ## (already in base) software-properties-common=0.96.24.32.18
 
 ## Docker itself and requirements
@@ -71,18 +71,18 @@
 
 # first pass to install required images to get docker sources
 apt-transport-https=1.6.12ubuntu0.2
-dirmngr=2.2.4-1ubuntu1.5
-gnupg=2.2.4-1ubuntu1.5
-gnupg-agent=2.2.4-1ubuntu1.5
-gnupg-l10n=2.2.4-1ubuntu1.5
-gnupg-utils=2.2.4-1ubuntu1.5
-gpg=2.2.4-1ubuntu1.5
-gpg-agent=2.2.4-1ubuntu1.5
-gpgconf=2.2.4-1ubuntu1.5
-gpgsm=2.2.4-1ubuntu1.5
-gpgv=2.2.4-1ubuntu1.5
-gpg-wks-client=2.2.4-1ubuntu1.5
-gpg-wks-server=2.2.4-1ubuntu1.5
+dirmngr=2.2.4-1ubuntu1.6
+gnupg=2.2.4-1ubuntu1.6
+gnupg-agent=2.2.4-1ubuntu1.6
+gnupg-l10n=2.2.4-1ubuntu1.6
+gnupg-utils=2.2.4-1ubuntu1.6
+gpg=2.2.4-1ubuntu1.6
+gpg-agent=2.2.4-1ubuntu1.6
+gpgconf=2.2.4-1ubuntu1.6
+gpgsm=2.2.4-1ubuntu1.6
+gpgv=2.2.4-1ubuntu1.6
+gpg-wks-client=2.2.4-1ubuntu1.6
+gpg-wks-server=2.2.4-1ubuntu1.6
 
 # all the rest of the packages
 ansible=2.5.1+dfsg-1ubuntu0.1
@@ -116,9 +116,9 @@ libndp0=1.6-1
 libnfsidmap2=0.25-5.1
 libnm0=1.10.6-2ubuntu1.4
 libonig4=6.7.0-1
-libpython3.6=3.6.9-1~18.04ubuntu1.7
-libpython3.6-minimal=3.6.9-1~18.04ubuntu1.7
-libpython3.6-stdlib=3.6.9-1~18.04ubuntu1.7
+libpython3.6=3.6.9-1~18.04ubuntu1.9
+libpython3.6-minimal=3.6.9-1~18.04ubuntu1.9
+libpython3.6-stdlib=3.6.9-1~18.04ubuntu1.9
 libpython-stdlib=2.7.15~rc1-1
 libqmi-glib5=1.22.0-1.2~ubuntu18.04.1
 libqmi-proxy=1.22.0-1.2~ubuntu18.04.1
@@ -135,9 +135,9 @@ nvme-cli=1.5-1ubuntu1.2
 ppp=2.4.7-2+2ubuntu1.3
 pptp-linux=1.9.0+ds-2
 python=2.7.15~rc1-1
-python3.6=3.6.9-1~18.04ubuntu1.7
-python3.6-minimal=3.6.9-1~18.04ubuntu1.7
-python3.6-venv=3.6.9-1~18.04ubuntu1.7
+python3.6=3.6.9-1~18.04ubuntu1.9
+python3.6-minimal=3.6.9-1~18.04ubuntu1.9
+python3.6-venv=3.6.9-1~18.04ubuntu1.9
 python3-distutils=3.6.9-1~18.04
 python3-lib2to3=3.6.9-1~18.04
 python3-pip=9.0.1-2.3~ubuntu1.18.04.5
