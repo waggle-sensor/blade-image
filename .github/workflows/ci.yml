@@ -9,7 +9,7 @@ jobs:
     name: Validate preseed
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Configure environment
         run: |
           sudo apt-get update
@@ -21,7 +21,7 @@ jobs:
     name: Build ISO (VM)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build Test ISO (VM)
         run: ./build.sh -v -f
 
@@ -29,6 +29,6 @@ jobs:
     name: Build ISO (Blade)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build Test ISO (Blade)
         run: ./build.sh -f
