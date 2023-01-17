@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Build Blade Release
         id: build_project
         run: |
           ./build.sh
-          echo "##[set-output name=blade-image;]$(ls *.iso)"
+          echo "blade-image=$(ls *.iso)" >> $GITHUB_OUTPUT
 
       # Split the assets into 2GB max size (GitHub limit) and upload to new release
       - name: Create Release
