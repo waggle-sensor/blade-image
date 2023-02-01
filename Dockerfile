@@ -107,7 +107,7 @@ RUN mkdir -p /ROOTFS/etc/waggle/k3s_config; \
     chmod +x k3s_install.sh
 RUN mkdir -p /ROOTFS/usr/local/bin/ ; \
     cd /ROOTFS/usr/local/bin/ ; \
-    wget https://github.com/rancher/k3s/releases/download/v1.20.15+k3s1/k3s ; \
+    wget https://github.com/k3s-io/k3s/releases/download/v1.25.4%2Bk3s1/k3s ; \
     chmod +x k3s
 
 # Make custom file system changes for VM mode
