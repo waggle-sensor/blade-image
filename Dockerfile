@@ -49,11 +49,11 @@ RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES_NV
 # Download the Waggle RPI package that needs to be installed to a separate partition
 RUN mkdir -p /iso/pool/special
 RUN cd /iso/pool/special ; \
-    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.3.0/sage-rpi-pxeboot_2.3.0_all.deb ; \
-    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.3.0/sage-rpi-pxeboot-boot_2.3.0_all.deb ; \
-    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.3.0/sage-rpi-pxeboot-os-usrlibfw_2.3.0_all.deb ; \
-    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.3.0/sage-rpi-pxeboot-os-usrlib_2.3.0_all.deb ; \
-    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.3.0/sage-rpi-pxeboot-os-other_2.3.0_all.deb
+    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.4.0/sage-rpi-pxeboot_2.4.0_all.deb ; \
+    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.4.0/sage-rpi-pxeboot-boot_2.4.0_all.deb ; \
+    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.4.0/sage-rpi-pxeboot-os-usrlibfw_2.4.0_all.deb ; \
+    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.4.0/sage-rpi-pxeboot-os-usrlib_2.4.0_all.deb ; \
+    wget https://github.com/waggle-sensor/waggle-rpi-pxeboot/releases/download/v2.4.0/sage-rpi-pxeboot-os-other_2.4.0_all.deb
 
 # Waggle packages
 RUN cd /iso/pool/contrib; \
