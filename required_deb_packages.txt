@@ -19,8 +19,8 @@
 ## (already in base) software-properties-common=0.96.24.32.18
 
 ## Docker itself and requirements
-# docker-ce=5:20.10.12~3-0~ubuntu-bionic
-# docker-ce-cli=5:20.10.12~3-0~ubuntu-bionic
+# docker-ce=5:23.0.0-1~ubuntu.18.04~bionic
+# docker-ce-cli=5:23.0.0-1~ubuntu.18.04~bionic
 # containerd.io=1.6.8-1
 
 ## Misc tools
@@ -91,8 +91,8 @@ bluez=5.48-0ubuntu3.9
 bwm-ng=0.6.1-5
 containerd.io=1.6.8-1
 dnsmasq=2.79-1
-docker-ce=5:20.10.12~3-0~ubuntu-bionic
-docker-ce-cli=5:20.10.12~3-0~ubuntu-bionic
+docker-ce=5:23.0.0-1~ubuntu.18.04~bionic
+docker-ce-cli=5:23.0.0-1~ubuntu.18.04~bionic
 haveged=1.9.1-6
 i2c-tools=4.0-2
 ieee-data=20180204.1
