@@ -63,7 +63,7 @@ cat waggle_blade-1.2.3-0-aee27ec.iso-* > waggle_blade-1.2.3-0-aee27ec.iso
 
 ### <a name="flashing_iso"></a> 1) Flashing the ISO
 
-Download the ISO from 1 of the following 2 locations:
+The default installation instructions will load the ISO from online and so there is no need to download the ISO to your local machine.
 - Public AWS [latest stable]: http://54.196.185.44/waggle_blade.iso
 - Release page: https://github.com/waggle-sensor/blade-image/releases
 
@@ -77,8 +77,9 @@ Download the ISO from 1 of the following 2 locations:
 
 ##### Command Line iDRAC / Remote Flashing
 
-To install the ISO on a Dell Blade, we'll first need to ssh into the iDRAC of
-said Dell Blade, which will take you into racadm.
+> Note: the following commands need only to be executed 1 time to "break the raid" and configure the machine for the installation.
+
+First need to ssh into the Dell Blade iDrac, which will take you into racadm.
 
 ```
 ssh root@x.x.x.x
@@ -86,32 +87,66 @@ ssh root@x.x.x.x
 
 You'll be prompted for a password, the default is 'calvin'.
 
+You can optionally change the ssh password via the following:
+
+```
+racadm>>set iDRAC.Users.2.Password <NEW PASSWORD>
+```
+
 The following steps are relating to breaking the SSD Raid on the blade which
 will allow the image to partition the drive how we would like.
 
 To create the job to break the ssd raid we execute the following:
 
 ```
-storage converttononraid:Disk.Bay.7:Enclosure.Internal.0-1:RAID.Integrated.1-1
+racadm>>storage converttononraid:Disk.Bay.7:Enclosure.Internal.0-1:RAID.Integrated.1-1
+RAC1040 : Successfully accepted the storage configuration operation.
 ```
 
 To execute this job:
 
 ```
-jobqueue create RAID.Integrated.1-1 --realtime
+racadm>>jobqueue create RAID.Integrated.1-1 -r pwrcycle -s TIME_NOW
+RAC1024: Successfully scheduled a job.
+Verify the job status using "racadm jobqueue view -i JID_xxxxx" command.
+Commit JID = JID_772832503742
+Reboot JID = RID_772832504147
 ```
+
+> Note: you can view the status of the job via the following command: `jobqueue view`
+> ```
+> racadm>>jobqueue view
+> -------------------------JOB QUEUE------------------------
+> [Job ID=JID_772832503742]
+> Job Name=Configure: RAID.Integrated.1-1
+> Status=Completed
+> Scheduled Start Time=[Now]
+> Expiration Time=[Not Applicable]
+> Actual Start Time=[Fri, 24 Feb 2023 18:02:53]
+> Actual Completion Time=[Fri, 24 Feb 2023 18:04:16]
+> Message=[PR19: Job completed successfully.]
+> Percent Complete=[100]
+> ----------------------------------------------------------
+> ```
 
 Next, once this job is completed we can begin mounting the image to the iDRAC.
 Execute the following to remove any image already potentially mounted:
 
 ```
-remoteimage -d
+racadm>>remoteimage -d
 ```
 
 Then, to mount our image:
 
 ```
-remoteimage -c -l http://x.x.x.x/*.iso
+racadm>>remoteimage -c -l http://54.196.185.44/waggle_blade.iso
+Remote Image is now Configured
+```
+
+You can check the status of the mount via:
+```
+racadm>>remoteimage -s
+Remote File Share is Enabled
 ```
 
 > *Note*:
@@ -121,8 +156,16 @@ remoteimage -c -l http://x.x.x.x/*.iso
 Finally, to start the OS install we should execute the following to set boot to virtual CD/DVD and then reboot.
 
 ```
-racadm config -g cfgServerInfo -o cfgServerFirstBootDevice vCD-DVD
-serveraction powercycle
+racadm>>racadm set iDRAC.ServerBoot.BootOnce Enabled
+[Key=iDRAC.Embedded.1#ServerBoot.1]
+Object value modified successfully
+
+racadm>>racadm set iDRAC.ServerBoot.FirstBootDevice VCD-DVD
+[Key=iDRAC.Embedded.1#ServerBoot.1]
+Object value modified successfully
+
+racadm>>serveraction powercycle
+Server power operation initiated successfully
 ```
 
 > *Note*:
@@ -130,6 +173,14 @@ serveraction powercycle
 
 > *Note*:
 > proceed to the [Login and Program VSN](#vsn) instructions below
+
+###### Issues During iDRAC Config?
+
+If the above mentioned commands are presenting problems and returning errors you can erase **everything** and start over with the following command.
+
+```
+systemerase bios,diag,drvpack,idrac,lcdata,allapps,cryptographicerasepd,overwritepd,percnvcache,vflash
+```
 
 ##### <a name="idrac_web"></a> iDRAC Web Interface GUI Flashing
 
