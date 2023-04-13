@@ -1,11 +1,11 @@
 #!/bin/bash -e
 
-echo "Building Dell Waggle Ubuntu [$PROJ_VERSION]"
+echo "Building HPE Waggle Ubuntu [$PROJ_VERSION]"
 
 #grab neccessary build files
 cp /iso_tools/preseed.seed /iso/preseed/
-cp /iso_tools/grub.cfg /iso/boot/grub/grub.cfg
-cp /iso_tools/txt.cfg /iso/isolinux/txt.cfg
+cp /iso_tools/grub_hpe.cfg /iso/boot/grub/grub.cfg
+cp /iso_tools/txt_hpe.cfg /iso/isolinux/txt.cfg
 mkdir -p /iso/postinst
 cp /iso_tools/postinst.sh /iso/postinst/
 
@@ -24,8 +24,12 @@ cp -r /ROOTFS /iso/
 echo "Make the ISO"
 ouputfile="${OUTPUT_NAME}_${PROJ_VERSION}.iso"
 pushd /iso
-mkisofs -D -r -V "AUTOINSTALL" -cache-inodes -J -l -b isolinux/isolinux.bin \
-    -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o \
+mkisofs -D -r -V "AUTOINSTALL" -cache-inodes  -J -l -b isolinux/isolinux.bin \
+    -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 \
+    -boot-info-table \
+    -eltorito-alt-boot -e boot/grub/efi.img \
+    -no-emul-boot \
+    -o \
     /tmp/${ouputfile} .
 popd
 mv /tmp/${ouputfile} /output
