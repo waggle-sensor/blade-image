@@ -1,7 +1,7 @@
 # Blade-Image
 
 Creates an ISO containing the Waggle customized Ubuntu (18.04) installation for x86
-machines (i.e. Dell blade servers).
+machines (i.e. Dell blade servers or HPE blade servers).
 
 The build process downloads a stock Ubuntu server ISO, unpacks it, makes
 installation (ex. preseed) modifications, adds required Debian packages,
@@ -26,6 +26,22 @@ use the following command:
 
 ```
 ./build.sh -v
+```
+
+
+<a name="HPE customized image"></a>
+To build a HPE hardware compatible  ISO
+use the following command:
+
+```
+./build.sh -h
+```
+<a name="HPE customized image with qualcomm support"></a>
+To build a HPE hardware compatible  ISO
+use the following command:
+
+```
+./build.sh -h -q
 ```
 
 ### Version explained
@@ -69,6 +85,20 @@ The default installation instructions will load the ISO from online and so there
 
 > *Note*:
 > You can find the list of files available for download in the public AWS by visiting this page: http://54.196.185.44/files/
+
+#### HPE Blade Hardware
+There is an auto deployment tool that will allow users to perform multiple node deployment. The tool is available from: 
+https://github.com/hpeliuhan/blade-image-deployment 
+
+The tool will compose a container that runs http server which hosts the iso images and deploy this iso image to Edge blades using HPE ilo restful API.
+##### Deployment steps
+The images are build from：https://github.com/waggle-sensor/blade-image. User will need to copy the built images to the iso folder.To depoly the waggle-sensor blade image to multiple nodes, user need to specify the HPE ILO info of each nodes following by this format seperated by space:
+
+| IP | Username | Password | ImagetoDeploy |
+
+Users will run: 'docker-compose up --build' to start the deployment.
+
+
 
 #### Dell Blade Hardware
 
@@ -309,6 +339,17 @@ To unlock the registration key(s) and establish the reverse tunnel execute the "
 > *Note*:
 > You will be presented with 3 password prompts to unlock 3 keys. The script will notify you if you
 > entered the correct password and the key was able to be successfully unlocked.
+
+### <a name="unlock customized key"></a> 3) Unlock Registration Key - User's own keys
+Were user given registration keys by providing the node-id to sagecontinuum. User can delete the previous hardcoded keys and replace user's own keys. 
+user can follow the follwing step to register the node and build reverse tunnel with beekeeper.
+```
+cd /etc/waggle/
+rm sage*
+chmod 600 sage*
+waggle-bk-registration.py  
+waggle-bk-reverse-tunnel.sh
+```
 
 ### 4) Configure Network Access
 
