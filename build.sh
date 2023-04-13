@@ -2,7 +2,7 @@
 
 print_help() {
   echo """
-usage: build.sh [-d] [-f] [-o] [-v] [-z]
+usage: build.sh [-d] [-f] [-o] [-v] [-z] [-h] [-q]
 
 Create a modified Ubuntu ISO from a base Ubuntu ISO that contains all
 neccessary packages and Waggle software tools for installation on a Dell blade.
@@ -11,6 +11,8 @@ neccessary packages and Waggle software tools for installation on a Dell blade.
   -d : don't build the image and enter debug mode within the Docker build environment.
   -f : force the build to proceed (debugging only) without checking for tagged commit
   -v : build the image for a test virtual machine
+  -h : build the image for HPE Edge servers 
+  -q : build the image foe HPE Edge servers with QUALCOMM accelerator suppoet
   -z : do a full non-cached build.
   -? : print this help menu
 """
@@ -18,16 +20,18 @@ neccessary packages and Waggle software tools for installation on a Dell blade.
 
 CMD="./create_image.sh"
 OUTPUT_NAME="waggle"
+Dockerfile="Dockerfile"
 BUILDNAME="blade"
 UBUNTU_IMG="ubuntu-18.04.5-server-amd64.iso"
 FORCE=
 TTY=
-PARTITION_LAYOUT=$(cat ./iso_tools/partition_layout_dell)
+PARTITION_LAYOUT=$(cat ./iso_tools/partition_layout_hpe)
 VM_MODE=
-while getopts "o:fdvz?" opt; do
+QUALCOMM_SUPPORT=
+while getopts "o:fdhqvz?" opt; do
   case $opt in
     o) OUTPUT_NAME=$OPTARG
-      ;;
+      ;;  
     d) # enable debug mode
       echo "** DEBUG MODE **"
       set +x
@@ -37,6 +41,17 @@ while getopts "o:fdvz?" opt; do
     f) # force build
       echo "** Force build: ignore tag depth check **"
       FORCE=1
+      ;;
+    h) #hpe hardware customized image
+      echo "** build hpe customized images **"
+      PARTITION_LAYOUT=$(cat ./iso_tools/partition_layout_hpe)  
+      Dockerfile="Dockerfile.hpe"
+      CMD="./create_image_hpe.sh"
+      ;;
+
+    q) #qualcomm support
+      echo "** Enable Qualcomm accelerator**"
+      QUALCOMM_SUPPORT=1  
       ;;
     v) # vm mode
       echo "** VM mode: build for virtual machine **"
@@ -69,7 +84,8 @@ echo "Build Parameters:"
 echo -e " Ubuntu image:\t${UBUNTU_IMG}"
 echo -e " Output name:\t${OUTPUT_NAME}"
 echo -e " Version:\t${PROJ_VERSION}"
-echo -e " VM Mode\t${VM_MODE}"
+echo -e " VM Mode:\t${VM_MODE}"
+#echo -e " QUALCOMM SUPPORTED:\t${QUALCOMM}"
 
 PWD=`pwd`
 
@@ -78,10 +94,11 @@ REQ_PACKAGES=$(sed -e '/^#/d' required_deb_packages.txt | tr '\n' ' ')
 REQ_PACKAGES_NVIDIA=$(sed -e '/^#/d' required_deb_nvidia_packages.txt | tr '\n' ' ')
 
 # create and run the Docker build environment
-docker build ${DOCKER_CACHE} -f Dockerfile -t blade_image_build \
+docker build ${DOCKER_CACHE} -f ${Dockerfile} -t blade_image_build \
     --build-arg UBUNTU_IMG="${UBUNTU_IMG}" \
     --build-arg REQ_PACKAGES="${REQ_PACKAGES}" \
     --build-arg REQ_PACKAGES_NVIDIA="${REQ_PACKAGES_NVIDIA}" \
+    --build-arg QUALCOMM_SUPPORT=${QUALCOMM_SUPPORT} \
     --build-arg PARTITION_LAYOUT="${PARTITION_LAYOUT}" \
     --build-arg VM_MODE="${VM_MODE}" .
 docker run $TTY --rm --privileged \

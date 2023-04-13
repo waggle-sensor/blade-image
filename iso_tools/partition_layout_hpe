@@ -1,0 +1,34 @@
+    gpt-boot-root-swap ::                        \\\
+         1 1 1 free                              \\\
+            $bios_boot{ }                        \\\
+            method{ biosgrub } .                 \\\
+        200 200 200 fat32                        \\\
+            $primary{ }                          \\\
+            method{ efi } format{ } .            \\\
+        16384 16384 16384 linux-swap             \\\
+            $primary{ }                          \\\
+            method{ swap } format{ } .           \\\
+        16384 16384 16384 ext4                   \\\
+            $primary{ } $bootable{ }             \\\
+            method{ format } format{ }           \\\
+            use_filesystem{ } filesystem{ ext4 } \\\
+            label { root }                       \\\
+            mountpoint{ / } .                    \\\
+        262144 262144 262144 ext4                \\\
+            $primary{ }                          \\\
+            method{ format } format{ }           \\\
+            use_filesystem{ } filesystem{ ext4 } \\\
+            label { system-data }                \\\
+            mountpoint{ /media/system-data } .   \\\
+        4096 4096 4096 ext4                      \\\
+            $primary{ }                          \\\
+            method{ format } format{ }           \\\
+            use_filesystem{ } filesystem{ ext4 } \\\
+            label { waggle-rpi }                 \\\
+            mountpoint{ /media/rpi } .           \\\
+        262144 262244 -1 ext4                    \\\
+            $primary{ }                          \\\
+            method{ format } format{ }           \\\
+            use_filesystem{ } filesystem{ ext4 } \\\
+            label { plugin-data }                \\\
+            mountpoint{ /media/plugin-data } .
