@@ -24,10 +24,10 @@ RUN curl -L https://old-releases.ubuntu.com/releases/bionic/${UBUNTU_IMG} > /${U
 # Get the docker apt source as docker is a required package to be downloaded below
 RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-transport-https=1.6.12ubuntu0.2 \
-    ca-certificates=20211016ubuntu0.18.04.1 \
-    curl=7.58.0-2ubuntu3.22 \
+    ca-certificates=20230311ubuntu0.18.04.1 \
+    curl=7.58.0-2ubuntu3.24 \
     gnupg-agent=2.2.4-1ubuntu1.6 \
-    software-properties-common=0.96.24.32.20
+    software-properties-common=0.96.24.32.22
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
@@ -70,8 +70,8 @@ ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid waggle-node-hostname 
 # Download the Waggle python packages to be installed to the end-system
 #  - python versions match end-system verions
 RUN apt-get update && apt-get install -y \
-    python3.6=3.6.9-1~18.04ubuntu1.9 \
-    python3-pip=9.0.1-2.3~ubuntu1.18.04.6
+    python3.6=3.6.9-1~18.04ubuntu1.12 \
+    python3-pip=9.0.1-2.3~ubuntu1.18.04.8
 RUN mkdir -p /iso/waggle/pip
 COPY required_pip_packages.txt /iso/waggle/pip/
 # - this will download all packages and dependencies
