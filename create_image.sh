@@ -24,8 +24,12 @@ cp -r /ROOTFS /iso/
 echo "Make the ISO"
 ouputfile="${OUTPUT_NAME}_${PROJ_VERSION}.iso"
 pushd /iso
-mkisofs -D -r -V "AUTOINSTALL" -cache-inodes -J -l -b isolinux/isolinux.bin \
-    -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o \
+mkisofs -D -r -V "AUTOINSTALL" -cache-inodes  -J -l -b isolinux/isolinux.bin \
+    -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 \
+    -boot-info-table \
+    -eltorito-alt-boot -e boot/grub/efi.img \
+    -no-emul-boot \
+    -o \
     /tmp/${ouputfile} .
 popd
 mv /tmp/${ouputfile} /output
