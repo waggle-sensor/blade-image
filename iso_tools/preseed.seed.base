@@ -34,7 +34,7 @@ d-i clock-setup/ntp                                         boolean     true
 # user account setup
 d-i passwd/root-login                                       boolean     true
 d-i passwd/make-user                                        boolean     false
-d-i passwd/root-password-crypted                            password    $1$NUn6912w$dE1AyNT7qmhvWlhrKlncn.
+d-i passwd/root-password-crypted                            password    $1$9QgDhHXk$mtL5xSR7//d0a3brp5ak6.
 d-i user-setup/allow-password-weak                          boolean     false
 
 # configure apt
