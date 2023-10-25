@@ -37,6 +37,10 @@ d-i passwd/make-user                                        boolean     false
 d-i passwd/root-password-crypted                            password    $1$9QgDhHXk$mtL5xSR7//d0a3brp5ak6.
 d-i user-setup/allow-password-weak                          boolean     false
 
+
+# kernel setup
+d-i base-installer/kernel/image				    string      {{kernel-version}}
+
 # configure apt
 d-i apt-setup/use_mirror                                    boolean     false
 d-i apt-setup/services-select                               multiselect
@@ -54,7 +58,8 @@ d-i pkgsel/include                                          string \
     openssh-server openssh-sftp-server python2.7 whois wpasupplicant \
     {{REQ_PACKAGES}} \
     {{REQ_PACKAGES_NVIDIA}} \
-    {{REQ_PACKAGES_WAGGLE}}
+    {{REQ_PACKAGES_QUALCOMM}} \
+    {{REQ_PACKAGES_WAGGLE}} 
 d-i pkgsel/upgrade                                          select      none
 d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     false
