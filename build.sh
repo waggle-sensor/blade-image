@@ -2,7 +2,7 @@
 
 print_help() {
   echo """
-usage: build.sh [-d] [-f] [-o] [-v] [-z]
+usage: build.sh [-d] [-f] [-o] [-v] [-z] [-q]
 
 Create a modified Ubuntu ISO from a base Ubuntu ISO that contains all
 neccessary packages and Waggle software tools for installation on a Dell blade.
@@ -12,6 +12,7 @@ neccessary packages and Waggle software tools for installation on a Dell blade.
   -f : force the build to proceed (debugging only) without checking for tagged commit
   -v : build the image for a test virtual machine
   -z : do a full non-cached build.
+  -q : add qualcomm accelerator support
   -? : print this help menu
 """
 }
@@ -24,7 +25,8 @@ FORCE=
 TTY=
 PARTITION_LAYOUT=$(cat ./iso_tools/partition_layout_dell)
 VM_MODE=
-while getopts "o:fdvz?" opt; do
+QUALCOMM_SUPPORT=
+while getopts "o:fdvzq?" opt; do
   case $opt in
     o) OUTPUT_NAME=$OPTARG
       ;;
@@ -46,6 +48,10 @@ while getopts "o:fdvz?" opt; do
     z) # do a full non-cached build
       echo "** EXECUTING A FULL BUILD (no cache) **"
       DOCKER_CACHE="--no-cache"
+      ;;
+    q) #add qualcomm GPU support
+      echo "** Qualcomm GPU enabled**"
+      QUALCOMM_SUPPORT=1  
       ;;
     ?|*)
       print_help
@@ -70,12 +76,14 @@ echo -e " Ubuntu image:\t${UBUNTU_IMG}"
 echo -e " Output name:\t${OUTPUT_NAME}"
 echo -e " Version:\t${PROJ_VERSION}"
 echo -e " VM Mode\t${VM_MODE}"
+echo -e " Qualcomm Support:\t${QUALCOMM_SUPPORT}"
 
 PWD=`pwd`
 
 # get the list of all required debian packages to install in final image
 REQ_PACKAGES=$(sed -e '/^#/d' required_deb_packages.txt | tr '\n' ' ')
 REQ_PACKAGES_NVIDIA=$(sed -e '/^#/d' required_deb_nvidia_packages.txt | tr '\n' ' ')
+REQ_PACKAGES_QUALCOMM=$(sed -e '/^#/d' required_deb_qualcomm_packages.txt | tr '\n' ' ')
 
 # create and run the Docker build environment
 docker build ${DOCKER_CACHE} -f Dockerfile -t blade_image_build \
@@ -83,6 +91,8 @@ docker build ${DOCKER_CACHE} -f Dockerfile -t blade_image_build \
     --build-arg REQ_PACKAGES="${REQ_PACKAGES}" \
     --build-arg REQ_PACKAGES_NVIDIA="${REQ_PACKAGES_NVIDIA}" \
     --build-arg PARTITION_LAYOUT="${PARTITION_LAYOUT}" \
+    --build-arg QUALCOMM_SUPPORT="${QUALCOMM_SUPPORT}" \
+    --build-arg REQ_PACKAGES_QUALCOMM="${REQ_PACKAGES_QUALCOMM}" \
     --build-arg VM_MODE="${VM_MODE}" .
 docker run $TTY --rm --privileged \
     -v ${PWD}:/output \
