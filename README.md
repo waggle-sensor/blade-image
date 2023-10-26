@@ -1,7 +1,7 @@
 # Blade-Image
 
 Creates an ISO containing the Waggle customized Ubuntu (18.04) installation for x86
-machines (i.e. Dell blade servers).
+machines (i.e. HPE/Dell blade servers).
 
 The build process downloads a stock Ubuntu server ISO, unpacks it, makes
 installation (ex. preseed) modifications, adds required Debian packages,
@@ -26,6 +26,16 @@ use the following command:
 
 ```
 ./build.sh -v
+```
+### Qualcomm Accelerator support: the QAIC Apps/Platform SDKs
+
+[Download](https://www.qualcomm.com/products/technology/processors/cloud-artificial-intelligence/cloud-ai-100#Software) the latest Apps SDK (e.g. `AIC_Apps_SDK.ZIP.1.0 Installer x86_00058.1`), x86_64/ubuntu Platform SDK (e.g. `AIC_Platform_SDK.ZIP.1.0 Installer x86_Ubuntu_00069.1`) and aarch64/ubuntu Platform SDK (e.g. `AIC_Platform_SDK.ZIP.1.0 Installer ARM_Ubuntu_00069.1`). Extract (`unzip`) the archives to obtain the Apps/Platform SDK archives of the same version (e.g. `qaic-apps-sdk-1.8.2.10.zip`,  `qaic-platform-sdk-x86_64-ubuntu-1.8.2.10.zip`, `qaic-platform-sdk-aarch64-ubuntu-1.8.2.10.zip`). Copy these Apps/Platform SDK archives to `./qualcomm_sdks`.
+
+<a name="qualcomm_support"></a>
+To build an ISO with Qualcomm AI100 accelerator, use the following command:
+
+```
+./build.sh -q
 ```
 
 ### Version explained
@@ -70,6 +80,17 @@ Download the ISO from 1 of the following 2 locations:
 > *Note*:
 > You can find the list of files available for download in the public AWS by visiting this page: http://54.196.185.44/files/
 
+#### HPE Blade Hardware
+There is an auto deployment tool that will allow users to perform multiple node deployment. The tool is available from: 
+https://github.com/hpeliuhan/blade-image-deployment 
+
+The tool will compose a container that runs http server which hosts the iso images and deploy this iso image to Edge blades using HPE ilo restful API.
+##### Deployment steps
+The images are build from：https://github.com/waggle-sensor/blade-image. User will need to copy the built images to the iso folder.To depoly the waggle-sensor blade image to multiple nodes, user need to specify the HPE ILO info of each nodes following by this format seperated by space:
+
+| IP | Username | Password | ImagetoDeploy |
+
+Users will run: 'docker-compose up --build' to start the deployment.
 #### Dell Blade Hardware
 
 > *Note*:
