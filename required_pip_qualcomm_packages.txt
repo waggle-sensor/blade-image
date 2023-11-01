@@ -1,0 +1,4 @@
+wheel==0.30.0
+numpy==1.19.5
+opencv-python==4.8.1.78
+onnx==1.11.0

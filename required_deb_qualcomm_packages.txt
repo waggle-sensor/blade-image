@@ -1,0 +1,26 @@
+## This file includes all the Debian packages (and dependencies) for the qualcomm sdk on top of `required_deb_packages`
+## -----------------------------------------------------------------------------------------------------------
+software-properties-common
+build-essential
+git
+vim
+libpci-dev
+libudev-dev
+python3-wheel
+python3.8
+python3.8-dev
+python3.8-venv
+unzip
+wget
+ca-certificates
+sudo
+pciutils
+libglib2.0-dev
+libssl-dev
+snap
+snapd
+libgl1-mesa-glx
+clang-format
+libpng-dev
+libstdc++6
+libncurses5

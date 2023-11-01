@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     dpkg-dev \
     mkisofs \
     wget \
-    vim
+    vim \
+    unzip
 
 # Download the base Ubuntu ISO (don't use var in curl to use docker cache)
 ARG UBUNTU_IMG
@@ -24,10 +25,10 @@ RUN curl -L https://old-releases.ubuntu.com/releases/bionic/${UBUNTU_IMG} > /${U
 # Get the docker apt source as docker is a required package to be downloaded below
 RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-transport-https=1.6.12ubuntu0.2 \
-    ca-certificates=20211016ubuntu0.18.04.1 \
-    curl=7.58.0-2ubuntu3.22 \
+    ca-certificates=20230311ubuntu0.18.04.1 \
+    curl=7.58.0-2ubuntu3.24 \
     gnupg-agent=2.2.4-1ubuntu1.6 \
-    software-properties-common=0.96.24.32.20
+    software-properties-common=0.96.24.32.22
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
@@ -45,6 +46,17 @@ COPY ROOTFS/etc/apt/trusted.gpg.d/*.asc /etc/apt/trusted.gpg.d/
 COPY ROOTFS/etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/
 RUN mkdir -p /iso/pool/contrib
 RUN cd /iso/pool/contrib; apt-get update && apt-get download -y $REQ_PACKAGES_NVIDIA
+
+# Qualcomm additional packages
+ARG REQ_PACKAGES_QUALCOMM
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y 
+RUN mkdir -p /iso/pool/qualcomm
+RUN cd /iso/pool/qualcomm; apt-get update && apt-get download -y  $(apt-cache depends --recurse --no-recommends --no-suggests \
+  --no-conflicts --no-breaks --no-replaces --no-enhances \
+  --no-pre-depends $REQ_PACKAGES_QUALCOMM | grep "^\w")
+RUN cd /iso/pool/contrib; \
+    wget  https://raw.githubusercontent.com/hpeliuhan/qualcomm-ai100/main/kernel/linux-headers-5.4.1-050401-generic_5.4.1-050401-generic-1_amd64.deb -O linux-headers-5.4.1-050401-generic_amd64.deb ; \
+    wget  https://raw.githubusercontent.com/hpeliuhan/qualcomm-ai100/main/kernel/linux-image-5.4.1-050401-generic_5.4.1-050401-generic-1_amd64.deb -O linux-image-5.4.1-050401-generic_amd64.deb
 
 # Download the Waggle RPI package that needs to be installed to a separate partition
 RUN mkdir -p /iso/pool/special
@@ -70,8 +82,8 @@ ARG REQ_PACKAGES_WAGGLE="waggle-common-tools waggle-nodeid waggle-node-hostname 
 # Download the Waggle python packages to be installed to the end-system
 #  - python versions match end-system verions
 RUN apt-get update && apt-get install -y \
-    python3.6=3.6.9-1~18.04ubuntu1.9 \
-    python3-pip=9.0.1-2.3~ubuntu1.18.04.6
+    python3.6=3.6.9-1~18.04ubuntu1.12 \
+    python3-pip=9.0.1-2.3~ubuntu1.18.04.8
 RUN mkdir -p /iso/waggle/pip
 COPY required_pip_packages.txt /iso/waggle/pip/
 # - this will download all packages and dependencies
@@ -83,7 +95,32 @@ ARG PARTITION_LAYOUT
 RUN cd /iso_tools; sed "s|{{REQ_PACKAGES}}|${REQ_PACKAGES}|" preseed.seed.base \
     | sed "s|{{REQ_PACKAGES_NVIDIA}}|${REQ_PACKAGES_NVIDIA}|" \
     | sed "s|{{REQ_PACKAGES_WAGGLE}}|${REQ_PACKAGES_WAGGLE}|" \
-    | sed "s|{{PARTITION_LAYOUT}}|${PARTITION_LAYOUT}|" > preseed.seed
+    | sed "s|{{PARTITION_LAYOUT}}|${PARTITION_LAYOUT}|" > preseed.seed.prestage
+
+
+# prepare kernel files and pip packages for qualcomm SDK installation
+COPY qualcomm_sdk/ /iso/qualcomm
+RUN mkdir -p /iso/qualcomm/pip
+COPY required_pip_qualcomm_packages.txt /iso/qualcomm/pip/
+ARG QUALCOMM_SUPPORT
+RUN if [ -n "$QUALCOMM_SUPPORT" ]; then \
+    cd /iso/qualcomm ; \
+    unzip qaic-apps-* ;\
+    unzip qaic-platform-* ;\
+    rm *.zip ;\
+    python3 -m pip install --upgrade pip ; \
+    python3 -m pip download -r /iso/qualcomm/required_pip_qualcomm_packages.txt -d /iso/qualcomm/pip ; \
+    cd /iso_tools ; \
+    sed "s|{{kernel-version}}|linux-image-5.4.1-050401-generic|" preseed.seed.prestage \
+    | sed "/{{REQ_PACKAGES_QUALCOMM}}/d" > preseed.seed ; \
+    else \
+    rm -r /iso/qualcomm ; \
+    cd /iso_tools ; \
+    sed "/{{kernel-version}}/d" preseed.seed.prestage \
+    | sed "/{{REQ_PACKAGES_QUALCOMM}}/d" > preseed.seed ; \
+    fi
+
+
 
 # update the apt archives in ISO
 RUN mkdir -p /iso/dists/bionic/contrib/binary-amd64

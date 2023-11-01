@@ -9,6 +9,19 @@ cp /iso_tools/txt.cfg /iso/isolinux/txt.cfg
 mkdir -p /iso/postinst
 cp /iso_tools/postinst.sh /iso/postinst/
 
+
+#add qualcomm post installation into the postinstallation script
+if [ -d "/iso/qualcomm" ]
+then 
+   echo "qualcomm directory exists"
+   cat /iso_tools/postinst_qualcomm.sh | tee -a /iso/postinst/postinst.sh
+#sed '/^rm -rf ${POSTINST_PATH}/i' /ROOTFS/etc/waggle/postinst/postinst_qualcomm.sh  /ROOTFS/etc/waggle/postinst/postinst.sh >/ROOTFS/etc/waggle/postinst/postinst.sh.tmp
+   sed -i -e  "/# delete the cache directory/r /ROOTFS/etc/waggle/postinst/postinst_qualcomm.sh" /ROOTFS/etc/waggle/postinst/postinst.sh 
+#   mv /ROOTFS/etc/waggle/postinst/postinst.sh.tmp /ROOTFS/etc/waggle/postinst/postinst.sh
+else
+   echo "qualcomm directory doesn't exist"
+fi
+
 # count the added debs
 echo "Count list of additional debs"
 ls -lah /iso/pool/contrib/*
@@ -24,8 +37,12 @@ cp -r /ROOTFS /iso/
 echo "Make the ISO"
 ouputfile="${OUTPUT_NAME}_${PROJ_VERSION}.iso"
 pushd /iso
-mkisofs -D -r -V "AUTOINSTALL" -cache-inodes -J -l -b isolinux/isolinux.bin \
-    -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o \
+mkisofs -D -r -V "AUTOINSTALL" -cache-inodes  -J -l -b isolinux/isolinux.bin \
+    -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 \
+    -boot-info-table \
+    -eltorito-alt-boot -e boot/grub/efi.img \
+    -no-emul-boot \
+    -o \
     /tmp/${ouputfile} .
 popd
 mv /tmp/${ouputfile} /output
