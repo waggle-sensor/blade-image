@@ -108,8 +108,6 @@ ssh root@x.x.x.x
 
 You'll be prompted for a password, the default is 'calvin'.
 
-_If you do not know the password but have physical access to the machine, you can reset the password by following [these steps](https://www.dell.com/support/kbdoc/en-us/000126703/how-to-reset-the-internal-dell-remote-access-controller-idrac-on-a-poweredge-server)._
-
 You can optionally change the ssh password via the following:
 
 ```
