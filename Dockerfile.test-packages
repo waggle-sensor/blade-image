@@ -1,0 +1,17 @@
+# This Dockerfile is a minimal setup which tests that all the core deb packages can be installed together.
+FROM amd64/ubuntu:bionic-20200921
+
+# Get the docker apt source as docker is a required package to be downloaded below.
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    apt-transport-https=1.6.12ubuntu0.2 \
+    ca-certificates=20230311ubuntu0.18.04.1 \
+    curl=7.58.0-2ubuntu3.24 \
+    gnupg-agent=2.2.4-1ubuntu1.6 \
+    software-properties-common=0.96.24.32.22
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+# Do a dry run install of our packages to make sure they're compatible.
+RUN apt-get update
+COPY required_deb_packages.txt .
+RUN grep -v '^#' required_deb_packages.txt | grep . | sort -u | xargs apt-get install --dry-run
